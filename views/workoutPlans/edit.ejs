@@ -7,26 +7,41 @@
     <title>Edit Campground</title>
   </head>
   <body>
-    <form action="/workoutplans" method="POST">
-      <div>
-        <label for="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          name="workout[title]"
-          value="<%= workout.title %>"
-        />
-      </div>
-      <div>
-        <label for="description">Description</label>
-        <input
-          type="text"
-          id="description"
-          name="workout[description]"
-          value="<%= workout.description %>"
-        />
-      </div>
-      <button>Add Workout Plan</button>
+    <form action="/workoutplans/<%= workout._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="workout[title]" value="<%= workout.title %>"/>
+          </div>
+          <div>
+            <label for="category">Category</label>
+            <select name="category" id="category">
+              <% for (let category of categories) {%>
+              <option value="<%= category %>" <%= workout.category === category ? "selected":"" %>><%= category %></option>
+              <% } %>
+            </select>
+          </div>
+          <div>
+            <label for="daysPerWeek">Days Per Week</label>
+            <select name="daysPerWeek" id="daysPerWeek">
+              <% for (let days of daysPerWeek) {%>
+              <option value="<%= days %>" <%= workout.daysPerWeek === daysPerWeek ? "selected":"" %>><%= days %></option>
+              <% } %>
+            </select>
+          </div>
+    
+          <div>
+            <label for="duration">Duration per workout</label>
+            <input type="text" id="duration" name="workout[duration]" value="<%= workout.duration %>"/>
+          </div>
+          <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="workout[description]"><%= workout.description %></textarea>
+          </div>
+          <div>
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="workout[notes]"><%= workout.notes %></textarea>
+          </div>
+      <button>Update Workout Plan</button>
     </form>
     <a href="/workoutplans/<%= workout._id %>">Back</a>
   </body>
