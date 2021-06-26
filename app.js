@@ -34,8 +34,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/workoutplans", async (req, res) => {
-  const workoutPlans = await WorkoutPlan.find({});
-  res.render("workoutPlans/index.ejs", { workoutPlans });
+  const { category } = req.query;
+  if (category) {
+    const workout = await WorkoutPlan.find({ category });
+    res.render("workoutPlans/index.ejs", { workout, category });
+  } else {
+    const workout = await WorkoutPlan.find({});
+    res.render("workoutPlans/index.ejs", { workout, category: "All" });
+  }
 });
 
 app.get("/workoutplans/new", (req, res) => {
@@ -91,6 +97,12 @@ app.put("/workoutplans/:id", async (req, res) => {
   workout.daysPerWeek = req.body.daysPerWeek;
   workout.category = req.body.category;
   res.redirect(`/workoutplans/${workout._id}`);
+});
+
+app.delete("/workoutplans/:id", async (req, res) => {
+  const { id } = req.params;
+  await WorkoutPlan.findByIdAndDelete(id);
+  res.redirect("/workoutplans");
 });
 
 app.listen(3000, () => {

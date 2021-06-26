@@ -7,16 +7,23 @@
     <title>Workout Plans</title>
   </head>
   <body>
-    <h1>All Workouts</h1>
+    <h1><%= category %> Workouts</h1>
     <div>
       <a href="/workoutplans/new">Add a workout plan</a>
     </div>
+    <div>
+      <div>View By Categories</div>
+      <a href="/workoutplans?category=5-day Split">View 5 day split</a>
+    </div>
     <ul>
-      <% for (let workout of workoutPlans) { %>
+      <% for (let work of workout) { %>
       <li>
-        <a href="/workoutplans/<%= workout._id %>"><%= workout.title %></a>
+        <a href="/workoutplans/<%= work._id %>"><%= work.title %></a>
       </li>
       <% } %>
     </ul>
+    <% if (category !== "All") {%>
+    <a href="/workoutplans/">All Workouts</a>
+    <% } %>
   </body>
 </html>
