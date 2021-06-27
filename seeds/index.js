@@ -29,9 +29,10 @@ const seedDB = async () => {
     const work = new WorkoutPlan({
       title: workoutPlanTypes[random5],
       duration: "45 mins",
+      daysPerWeek: "3",
       category: workoutPlanTypes[random5],
       description: "This is a randomly generated workout",
-      notes: "Seeded tips",
+      notes: "Take about 2-3 minutes rest between each set",
     });
     await work.save();
   }

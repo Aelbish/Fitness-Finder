@@ -67,7 +67,6 @@ app.post("/workoutplans", async (req, res) => {
   workout.daysPerWeek = req.body.daysPerWeek;
   workout.category = req.body.category;
   await workout.save();
-  console.log(workout);
   res.redirect(`/workoutplans/${workout._id}`);
 });
 
@@ -100,6 +99,7 @@ app.put("/workoutplans/:id", async (req, res) => {
   });
   workout.daysPerWeek = req.body.daysPerWeek;
   workout.category = req.body.category;
+  await workout.save();
   res.redirect(`/workoutplans/${workout._id}`);
 });
 
