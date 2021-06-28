@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
+const tryCatchAsync = require("./utils/tryCatchAsync");
+const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
 const WorkoutPlan = require("./models/workoutPlan");
 
@@ -37,16 +39,19 @@ app.get("/", (req, res) => {
   res.render("home.ejs");
 });
 
-app.get("/workoutplans", async (req, res) => {
-  const { category } = req.query;
-  if (category) {
-    const workout = await WorkoutPlan.find({ category });
-    res.render("workoutPlans/index.ejs", { workout, category });
-  } else {
-    const workout = await WorkoutPlan.find({});
-    res.render("workoutPlans/index.ejs", { workout, category: "All" });
-  }
-});
+app.get(
+  "/workoutplans",
+  tryCatchAsync(async (req, res) => {
+    const { category } = req.query;
+    if (category) {
+      const workout = await WorkoutPlan.find({ category });
+      res.render("workoutPlans/index.ejs", { workout, category });
+    } else {
+      const workout = await WorkoutPlan.find({});
+      res.render("workoutPlans/index.ejs", { workout, category: "All" });
+    }
+  })
+);
 
 app.get("/workoutplans/new", (req, res) => {
   const daysPerWeek = ["1", "2", "3", "4", "5", "6", "7"];
@@ -62,51 +67,78 @@ app.get("/workoutplans/new", (req, res) => {
   res.render("workoutPlans/new.ejs", { daysPerWeek, categories });
 });
 
-app.post("/workoutplans", async (req, res) => {
-  const workout = new WorkoutPlan(req.body.workout);
-  workout.daysPerWeek = req.body.daysPerWeek;
-  workout.category = req.body.category;
-  await workout.save();
-  res.redirect(`/workoutplans/${workout._id}`);
+app.post(
+  "/workoutplans",
+  tryCatchAsync(async (req, res, next) => {
+    const workout = new WorkoutPlan(req.body.workout);
+    workout.daysPerWeek = req.body.daysPerWeek;
+    workout.category = req.body.category;
+    await workout.save();
+    res.redirect(`/workoutplans/${workout._id}`);
+  })
+);
+
+app.get(
+  "/workoutplans/:id",
+  tryCatchAsync(async (req, res) => {
+    const { id } = req.params;
+    const workout = await WorkoutPlan.findById(id);
+    res.render("workoutplans/show.ejs", { workout });
+  })
+);
+
+app.get(
+  "/workoutplans/:id/edit",
+  tryCatchAsync(async (req, res) => {
+    const daysPerWeek = ["1", "2", "3", "4", "5", "6", "7"];
+    const categories = [
+      "Single body part Workout",
+      "Whole-body Split",
+      "Upper and Lower body Split",
+      "Push/Pull/Leg",
+      "4-Day Split",
+      "5-day Split",
+      "Custom Split",
+    ];
+    const { id } = req.params;
+    const workout = await WorkoutPlan.findById(id);
+    res.render("workoutplans/edit.ejs", { workout, daysPerWeek, categories });
+  })
+);
+
+app.put(
+  "/workoutplans/:id",
+  tryCatchAsync(async (req, res) => {
+    const { id } = req.params;
+    const workout = await WorkoutPlan.findByIdAndUpdate(id, {
+      ...req.body.workout,
+    });
+    workout.daysPerWeek = req.body.daysPerWeek;
+    workout.category = req.body.category;
+    await workout.save();
+    res.redirect(`/workoutplans/${workout._id}`);
+  })
+);
+
+app.delete(
+  "/workoutplans/:id",
+  tryCatchAsync(async (req, res) => {
+    const { id } = req.params;
+    await WorkoutPlan.findByIdAndDelete(id);
+    res.redirect("/workoutplans");
+  })
+);
+
+//Catch all other undefined routes, order of this is important, this is at the end
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page Not Found", 404));
 });
 
-app.get("/workoutplans/:id", async (req, res) => {
-  const { id } = req.params;
-  const workout = await WorkoutPlan.findById(id);
-  res.render("workoutplans/show.ejs", { workout });
-});
-
-app.get("/workoutplans/:id/edit", async (req, res) => {
-  const daysPerWeek = ["1", "2", "3", "4", "5", "6", "7"];
-  const categories = [
-    "Single body part Workout",
-    "Whole-body Split",
-    "Upper and Lower body Split",
-    "Push/Pull/Leg",
-    "4-Day Split",
-    "5-day Split",
-    "Custom Split",
-  ];
-  const { id } = req.params;
-  const workout = await WorkoutPlan.findById(id);
-  res.render("workoutplans/edit.ejs", { workout, daysPerWeek, categories });
-});
-
-app.put("/workoutplans/:id", async (req, res) => {
-  const { id } = req.params;
-  const workout = await WorkoutPlan.findByIdAndUpdate(id, {
-    ...req.body.workout,
-  });
-  workout.daysPerWeek = req.body.daysPerWeek;
-  workout.category = req.body.category;
-  await workout.save();
-  res.redirect(`/workoutplans/${workout._id}`);
-});
-
-app.delete("/workoutplans/:id", async (req, res) => {
-  const { id } = req.params;
-  await WorkoutPlan.findByIdAndDelete(id);
-  res.redirect("/workoutplans");
+//Custom error handler (middleware)
+app.use((err, req, res, next) => {
+  const { statusCode = 500} = err;
+  if (!err.message) err.message = "Something Went Wrong"
+  res.status(statusCode).render("error.ejs", { err });
 });
 
 app.listen(3000, () => {

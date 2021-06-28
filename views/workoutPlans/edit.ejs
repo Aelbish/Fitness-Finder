@@ -2,39 +2,47 @@
 <div class="row">
   <h1 class="text-center">Edit Workout Plan</h1>
   <div class="col-6 offset-3">
-    <form action="/workoutplans/<%= workout._id %>?_method=PUT" method="POST">
+    <form action="/workoutplans/<%= workout._id %>?_method=PUT" method="POST" novalidate class="validated-form">
         <div class="mb-3">
             <label class="form-label" for="title">Title</label>
-            <input class="form-control" type="text" id="title" name="workout[title]" value="<%= workout.title %>"/>
+            <input class="form-control" type="text" id="title" name="workout[title]" value="<%= workout.title %>" required/>
+            <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="category">Category</label>
-            <select class="form-select" name="category" id="category">
+            <select class="form-select" name="category" id="category" required>
+              <option selected disabled value="">Choose...</option>
               <% for (let category of categories) {%>
               <option value="<%= category %>" <%= workout.category === category ? "selected":"" %>><%= category %></option>
               <% } %>
             </select>
+            <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="daysPerWeek">Days Per Week</label>
-            <select class="form-select" name="daysPerWeek" id="daysPerWeek">
+            <select class="form-select" name="daysPerWeek" id="daysPerWeek" required>
+              <option selected disabled value="">Choose...</option>
               <% for (let days of daysPerWeek) {%>
               <option value="<%= days %>" <%= workout.daysPerWeek === days ? "selected":"" %>><%= days %></option>
               <% } %>
             </select>
+            <div class="valid-feedback">Looks good!</div>
           </div>
     
           <div class="mb-3">
             <label class="form-label" for="duration">Duration per workout</label>
-            <input class="form-control" type="text" id="duration" name="workout[duration]" value="<%= workout.duration %>"/>
+            <input class="form-control" type="text" id="duration" name="workout[duration]" value="<%= workout.duration %>" required/>
+            <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="description">Description</label>
-            <textarea class="form-control" id="description" name="workout[description]" rows="25"><%= workout.description %></textarea>
+            <textarea class="form-control" id="description" name="workout[description]" rows="25" required><%= workout.description %></textarea>
+            <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="notes">Notes</label>
             <textarea class="form-control" id="notes" name="workout[notes]" rows="4"><%= workout.notes %></textarea>
+            <div class="valid-feedback">Looks good!</div>
           </div>
       <button class="btn btn-warning mb-3">Update</button>
     </form>

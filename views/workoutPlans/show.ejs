@@ -25,7 +25,7 @@
             data-bs-toggle="modal"
             data-bs-target="#descriptionModal"
           >
-            View Description
+            View Workout
           </button>
 
           <!-- Modal -->
@@ -52,7 +52,7 @@
                   ></button>
                 </div>
                 <div class="modal-body">
-                  <p style="white-space: pre-wrap">
+                  <p style="white-space: pre-line">
                     <%= workout.description %>
                   </p>
                 </div>
@@ -102,7 +102,7 @@
                   ></button>
                 </div>
                 <div class="modal-body">
-                  <p style="white-space: pre-wrap"><%= workout.notes %></p>
+                  <p style="white-space: pre-line"><%= workout.notes %></p>
                 </div>
                 <div class="modal-footer">
                   <button
@@ -134,5 +134,6 @@
         </form>
       </div>
     </div>
+    <a href="/workoutplans/">Back</a>
   </div>
 </div>

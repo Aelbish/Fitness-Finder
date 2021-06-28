@@ -2,7 +2,12 @@
 <div class="row">
   <h1 class="text-center">New Workout Plan</h1>
   <div class="col-6 offset-3">
-    <form action="/workoutplans" method="POST">
+    <form
+      action="/workoutplans"
+      method="POST"
+      novalidate
+      class="validated-form"
+    >
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
@@ -10,23 +15,34 @@
           type="text"
           id="title"
           name="workout[title]"
+          required
         />
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="category">Category</label>
-        <select class="form-select" name="category" id="category">
+        <select class="form-select" name="category" id="category" required>
+          <option selected disabled value="">Choose...</option>
           <% for (let category of categories) {%>
           <option value="<%= category %>"><%= category %></option>
           <% } %>
         </select>
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="daysPerWeek">Days Per Week</label>
-        <select class="form-select" name="daysPerWeek" id="daysPerWeek">
+        <select
+          class="form-select"
+          name="daysPerWeek"
+          id="daysPerWeek"
+          required
+        >
+          <option selected disabled value="">Choose...</option>
           <% for (let days of daysPerWeek) {%>
           <option value="<%= days %>"><%= days %></option>
           <% } %>
         </select>
+        <div class="valid-feedback">Looks good!</div>
       </div>
 
       <div class="mb-3">
@@ -36,7 +52,9 @@
           type="text"
           id="duration"
           name="workout[duration]"
+          required
         />
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="description">Description</label>
@@ -46,7 +64,9 @@
           name="workout[description]"
           rows="25"
           placeholder="Type your workout plan ..."
+          required
         ></textarea>
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="notes">Notes</label>
@@ -57,10 +77,12 @@
           rows="4"
           placeholder="Add notes ..."
         ></textarea>
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Add Workout Plan</button>
       </div>
     </form>
+    <a href="/workoutplans/">Back</a>
   </div>
 </div>
