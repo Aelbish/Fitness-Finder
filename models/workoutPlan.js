@@ -22,6 +22,10 @@ const WorkoutPlanSchema = new Schema({
   },
   description: String,
   notes: String,
+  gender: {
+    type: String,
+    enum: ["Male", "Female", "Both"],
+  },
 });
 
 module.exports = mongoose.model("WorkoutPlan", WorkoutPlanSchema);

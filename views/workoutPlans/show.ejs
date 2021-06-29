@@ -11,6 +11,10 @@
         <h5 class="card-title"><%= workout.title %></h5>
         <small class="card-subtitle mb-2 text-muted">Submitted by User</small>
       </div>
+      <div class="card-header">
+        <% if (workout.gender === "Both") { %>Focused For : All Genders<% } else
+        { %>Focused For : <%= workout.gender %><% } %>
+      </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Category : <%= workout.category %></li>
         <li class="list-group-item">Duration : <%= workout.duration %></li>

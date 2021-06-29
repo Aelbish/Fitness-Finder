@@ -22,14 +22,20 @@ const workoutPlanTypes = [
   "4-Day Split",
   "5-day Split",
 ];
+
+const genders = ["Male", "Female", "Both"];
+const days = ["4", "5", "6"];
+
 const seedDB = async () => {
   await WorkoutPlan.deleteMany({});
   for (let i = 0; i < 50; i++) {
     const random5 = Math.floor(Math.random() * 5);
+    const random3 = Math.floor(Math.random() * 3);
     const work = new WorkoutPlan({
       title: workoutPlanTypes[random5],
       duration: "45 mins",
-      daysPerWeek: "3",
+      daysPerWeek: days[random3],
+      gender: genders[random3],
       category: workoutPlanTypes[random5],
       description: "This is a randomly generated workout",
       notes: "Take about 2-3 minutes rest between each set",

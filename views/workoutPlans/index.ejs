@@ -18,8 +18,9 @@
         <p class="card-text"><%= work.category %> Category</p>
         <p class="card-text">
           <small class="text-muted"
-            ><%= work.duration%> Per Session, <%= work.daysPerWeek %> Days Per
-            Week</small
+            ><% if (work.gender === "Both") { %>Focused For All Genders, <% }
+            else { %>Focused For <%= work.gender %>, <% } %><%= work.duration%>
+            Per Session, <%= work.daysPerWeek %> Days Per Week</small
           >
         </p>
         <a class="btn btn-primary" href="/workoutplans/<%= work._id %>">View</a>

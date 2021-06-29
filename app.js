@@ -2,10 +2,12 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
+const { workoutPlanSchema } = require("./Schemas");
 const tryCatchAsync = require("./utils/tryCatchAsync");
 const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
 const WorkoutPlan = require("./models/workoutPlan");
+const { validate } = require("./models/workoutPlan");
 
 //Connecting to Mongo
 mongoose.connect("mongodb://localhost:27017/fitness-finder", {
@@ -34,6 +36,17 @@ app.use(express.urlencoded({ extended: true }));
 
 //to enable put request from html form
 app.use(methodOverride("_method"));
+
+//Server-side data validator middleware
+const validateWorkout = (req, res, next) => {
+  const { error } = workoutPlanSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
 
 app.get("/", (req, res) => {
   res.render("home.ejs");
@@ -64,15 +77,15 @@ app.get("/workoutplans/new", (req, res) => {
     "5-day Split",
     "Custom Split",
   ];
-  res.render("workoutPlans/new.ejs", { daysPerWeek, categories });
+  const genders = ["Male", "Female", "Both"];
+  res.render("workoutPlans/new.ejs", { daysPerWeek, categories, genders });
 });
 
 app.post(
   "/workoutplans",
+  validateWorkout,
   tryCatchAsync(async (req, res, next) => {
     const workout = new WorkoutPlan(req.body.workout);
-    workout.daysPerWeek = req.body.daysPerWeek;
-    workout.category = req.body.category;
     await workout.save();
     res.redirect(`/workoutplans/${workout._id}`);
   })
@@ -100,21 +113,26 @@ app.get(
       "5-day Split",
       "Custom Split",
     ];
+    const genders = ["Male", "Female", "Both"];
     const { id } = req.params;
     const workout = await WorkoutPlan.findById(id);
-    res.render("workoutplans/edit.ejs", { workout, daysPerWeek, categories });
+    res.render("workoutplans/edit.ejs", {
+      workout,
+      daysPerWeek,
+      categories,
+      genders,
+    });
   })
 );
 
 app.put(
   "/workoutplans/:id",
+  validateWorkout,
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
     const workout = await WorkoutPlan.findByIdAndUpdate(id, {
       ...req.body.workout,
     });
-    workout.daysPerWeek = req.body.daysPerWeek;
-    workout.category = req.body.category;
     await workout.save();
     res.redirect(`/workoutplans/${workout._id}`);
   })
@@ -136,8 +154,8 @@ app.all("*", (req, res, next) => {
 
 //Custom error handler (middleware)
 app.use((err, req, res, next) => {
-  const { statusCode = 500} = err;
-  if (!err.message) err.message = "Something Went Wrong"
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Something Went Wrong";
   res.status(statusCode).render("error.ejs", { err });
 });
 
