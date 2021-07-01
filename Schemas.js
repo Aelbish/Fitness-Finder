@@ -19,6 +19,6 @@ module.exports.workoutPlanSchema = Joi.object({
       .required(),
     gender: Joi.string().valid("Male", "Female", "Both").required(),
     description: Joi.string().required(),
-    notes: Joi.string(),
+    summary: Joi.string().required(),
   }).required(),
 });

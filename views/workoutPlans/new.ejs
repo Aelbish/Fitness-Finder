@@ -1,4 +1,5 @@
 <% layout("layouts/boilerplate.ejs") %>
+
 <div class="row">
   <h1 class="text-center">New Workout Plan</h1>
   <div class="col-6 offset-3">
@@ -20,8 +21,26 @@
         <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
+        <label class="form-label" for="summary">Description</label>
+        <textarea
+          class="form-control"
+          id="summary"
+          name="workout[summary]"
+          rows="4"
+          cols="30"
+          placeholder="Add description ..."
+          required
+        ></textarea>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
         <label class="form-label" for="category">Category</label>
-        <select class="form-select" name="workout[category]" id="category" required>
+        <select
+          class="form-select"
+          name="workout[category]"
+          id="category"
+          required
+        >
           <option selected disabled value="">Choose...</option>
           <% for (let category of categories) {%>
           <option value="<%= category %>"><%= category %></option>
@@ -67,32 +86,28 @@
         <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
+        <label class="form-label" for="description">Workout Plan</label>
         <textarea
           class="form-control"
           id="description"
           name="workout[description]"
           rows="25"
+          cols="30"
           placeholder="Type your workout plan ..."
-          required
         ></textarea>
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="notes">Notes</label>
-        <textarea
-          class="form-control"
-          id="notes"
-          name="workout[notes]"
-          rows="4"
-          placeholder="Add notes ..."
-        ></textarea>
-        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Add Workout Plan</button>
+        <a href="/workoutplans/" class="btn btn-danger">Cancel</a>
       </div>
     </form>
-    <a href="/workoutplans/">Back</a>
   </div>
 </div>
+
+<script>
+  tinymce.init({
+    selector: "#description",
+    hidden_input: false,
+    readonly: false,
+  });
+</script>

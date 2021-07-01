@@ -38,7 +38,7 @@ const seedDB = async () => {
       gender: genders[random3],
       category: workoutPlanTypes[random5],
       description: "This is a randomly generated workout",
-      notes: "Take about 2-3 minutes rest between each set",
+      summary: `${workoutPlanTypes[random5]} program by Random User`,
     });
     await work.save();
   }

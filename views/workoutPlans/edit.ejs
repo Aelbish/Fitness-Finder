@@ -1,4 +1,5 @@
 <% layout("layouts/boilerplate.ejs") %>
+
 <div class="row">
   <h1 class="text-center">Edit Workout Plan</h1>
   <div class="col-6 offset-3">
@@ -6,6 +7,11 @@
         <div class="mb-3">
             <label class="form-label" for="title">Title</label>
             <input class="form-control" type="text" id="title" name="workout[title]" value="<%= workout.title %>" required/>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="summary">Description</label>
+            <textarea class="form-control" id="summary" name="workout[summary]" rows="4"><%= workout.summary %></textarea>
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
@@ -45,16 +51,21 @@
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
-            <label class="form-label" for="description">Description</label>
+            <label class="form-label" for="description">Workout</label>
             <textarea class="form-control" id="description" name="workout[description]" rows="25" required><%= workout.description %></textarea>
             <div class="valid-feedback">Looks good!</div>
           </div>
-          <div class="mb-3">
-            <label class="form-label" for="notes">Notes</label>
-            <textarea class="form-control" id="notes" name="workout[notes]" rows="4"><%= workout.notes %></textarea>
-            <div class="valid-feedback">Looks good!</div>
+          <div class="mb-3"><button class="btn btn-warning">Update</button>
+            <a href="/workoutplans/<%= workout._id %>" class="btn btn-danger">Cancel</a>
           </div>
-      <button class="btn btn-warning mb-3">Update</button>
     </form>
-    <a href="/workoutplans/<%= workout._id %>">Back</a>
-    </div>
+  </div>
+</div>
+
+<script>
+  tinymce.init({
+    selector: '#description',
+    hidden_input: false,
+    readonly: false,
+  });
+</script>

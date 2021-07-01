@@ -21,11 +21,17 @@ const WorkoutPlanSchema = new Schema({
     ],
   },
   description: String,
-  notes: String,
+  summary: String,
   gender: {
     type: String,
     enum: ["Male", "Female", "Both"],
   },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 module.exports = mongoose.model("WorkoutPlan", WorkoutPlanSchema);
