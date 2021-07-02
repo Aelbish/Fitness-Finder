@@ -53,6 +53,7 @@ router.post(
   tryCatchAsync(async (req, res, next) => {
     const workout = new WorkoutPlan(req.body.workout);
     await workout.save();
+    req.flash("success", "New workout plan has been added!");
     res.redirect(`/workoutplans/${workout._id}`);
   })
 );
@@ -62,6 +63,10 @@ router.get(
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
     const workout = await WorkoutPlan.findById(id).populate("reviews");
+    if (!workout) {
+      req.flash("error", "Cannot find that workout plan!");
+      return res.redirect("/workoutplans");
+    }
     res.render("workoutplans/show.ejs", { workout });
   })
 );
@@ -71,6 +76,10 @@ router.get(
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
     const workout = await WorkoutPlan.findById(id);
+    if (!workout) {
+        req.flash("error", "Cannot find that workout plan!");
+        return res.redirect("/workoutplans");
+      }
     res.render("workoutplans/edit.ejs", {
       workout,
       goals,
@@ -90,7 +99,7 @@ router.put(
     const workout = await WorkoutPlan.findByIdAndUpdate(id, {
       ...req.body.workout,
     });
-    await workout.save();
+    req.flash("success", "Workout plan has been updated!");
     res.redirect(`/workoutplans/${workout._id}`);
   })
 );
@@ -100,6 +109,7 @@ router.delete(
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
     await WorkoutPlan.findByIdAndDelete(id);
+    req.flash("success", "Workout plan has been deleted!");
     res.redirect("/workoutplans");
   })
 );
