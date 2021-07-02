@@ -6,12 +6,15 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
+const ExpressError = require("./utils/ExpressError");
+
+const User = require("./models/user");
 
 //Router objects for routes
-const workoutPlans = require("./routes/workoutPlans");
-const reviews = require("./routes/reviews");
+const workoutPlanRoutes = require("./routes/workoutPlans");
+const reviewRoutes = require("./routes/reviews");
+const userRoutes = require("./routes/users");
 
 //Connecting to Mongo
 mongoose.connect("mongodb://localhost:27017/fitness-finder", {
@@ -58,17 +61,32 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+//Store and remove user from a session
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 //Middleware for flash
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
 
 //Use routes for workoutplans and set the prefix as /workoutplans
-app.use("/workoutplans", workoutPlans);
+app.use("/workoutplans", workoutPlanRoutes);
 //Use routes for reviews and set the prefix as /workoutplans/:id/reviews
-app.use("/workoutplans/:id/reviews", reviews);
+app.use("/workoutplans/:id/reviews", reviewRoutes);
+app.use("/", userRoutes);
+
+app.get("/fakeuser", async (req, res) => {
+  const user = new User({ username: "admin", email: "admin@gmail.com" });
+  const newUser = await User.register(user, "admin");
+  res.send(newUser);
+});
 
 app.get("/", (req, res) => {
   res.render("home.ejs");

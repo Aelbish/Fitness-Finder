@@ -26,7 +26,7 @@ router.post(
     workout.reviews.push(review);
     await review.save();
     await workout.save();
-    req.flash("success", "Your review has been added!");
+    req.flash("success", "Your review has been added");
     res.redirect(`/workoutplans/${workout._id}`);
   })
 );
@@ -37,7 +37,7 @@ router.delete(
     const { id, reviewId } = req.params;
     await WorkoutPlan.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
-    req.flash("success", "Your review has been deleted!");
+    req.flash("success", "Your review has been deleted");
     res.redirect(`/workoutplans/${id}`);
   })
 );
