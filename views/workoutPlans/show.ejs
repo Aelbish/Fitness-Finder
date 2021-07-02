@@ -1,7 +1,6 @@
 <% layout("layouts/boilerplate.ejs") %>
-
 <div class="row">
-  <div class="col-6 offset-3">
+  <div class="col-6">
     <div class="card mb-3">
       <img
         class="card-img-top"
@@ -13,19 +12,76 @@
         <p class="card-text"><%= workout.summary %></p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <% if (workout.gender === "Both") { %>Focused For : All Genders<% }
-          else { %>Focused For : <%= workout.gender %><% } %>
-        </li>
+        <li class="list-group-item">Goal : <%= workout.goal %></li>
         <li class="list-group-item">Category : <%= workout.category %></li>
-        <li class="list-group-item">Duration : <%= workout.duration %></li>
+        <li class="list-group-item">
+          Training Level : <%= workout.trainingLevel %>
+        </li>
+        <li class="list-group-item">
+          Program Duration : <%= workout.programDuration %>
+        </li>
         <li class="list-group-item">
           Days Per Week : <%= workout.daysPerWeek %>
         </li>
         <li class="list-group-item">
-          <textarea id="description" cols="30" rows="25">
-<%=workout.description%></textarea
+          Time Per Workout : <%= workout.timePerWorkout %>
+        </li>
+        <li class="list-group-item">
+          <% if (workout.gender === "All Genders") { %>Target Gender : All
+          Genders<% } else { %>Target Gender : <%= workout.gender %><% } %>
+        </li>
+
+        <li class="list-group-item">
+          <!-- Button trigger modal -->
+          <button
+            type="button"
+            class="btn btn-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
           >
+            View Workout
+          </button>
+
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-fullscreen">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">
+                    Workout Plan
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <textarea id="description" cols="30" rows="25">
+<%=workout.description%></textarea
+                  >
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
       </ul>
       <div class="card-body">
@@ -47,8 +103,15 @@
         <small class="card-subtitle mb-2 text-muted">Submitted by User</small>
       </div>
     </div>
+  </div>
+  <div class="col-6 mb-3">
     <h2>Leave a Review</h2>
-    <form action="" class="mb-3">
+    <form
+      action="/workoutplans/<%= workout._id %>/reviews"
+      class="mb-3 validated-form"
+      method="POST"
+      novalidate
+    >
       <div class="mb-3">
         <label class="form-label" for="rating">Rating</label>
         <input
@@ -71,9 +134,29 @@
           placeholder="Write a review ..."
           required
         ></textarea>
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
+    <div class="mb-3">
+      <h5>Reviews</h5>
+      <div style="height: 60vh; overflow-y: scroll">
+        <%for (let review of workout.reviews) { %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Rating : <%= review.rating %></h5>
+            <p class="card-text">Review : <%= review.body %></p>
+            <form
+              action="/workoutplans/<%= workout._id %>/reviews/<%= review._id %>?_method=DELETE"
+              method="POST"
+            >
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -82,5 +165,6 @@
     selector: "#description",
     hidden_input: false,
     readonly: true,
+    height: "100%",
   });
 </script>

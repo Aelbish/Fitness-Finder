@@ -2,23 +2,43 @@ const Joi = require("joi");
 module.exports.workoutPlanSchema = Joi.object({
   workout: Joi.object({
     title: Joi.string().required(),
-    duration: Joi.string().required(),
-    daysPerWeek: Joi.string()
-      .valid("1", "2", "3", "4", "5", "6", "7")
+    goal: Joi.string()
+      .valid(
+        "Build Muscle",
+        "Increase Strength",
+        "Lose Fat/Tone Up",
+        "Increase Endurance/Stamina"
+      )
       .required(),
     category: Joi.string()
       .valid(
-        "Single body part Workout",
-        "Whole-body Split",
-        "Upper and Lower body Split",
+        "Single Muscle Group",
+        "Full Body",
+        "Cardio/HITT",
         "Push/Pull/Leg",
+        "3-Day Split",
         "4-Day Split",
-        "5-day Split",
+        "5-Day Split",
         "Custom Split"
       )
       .required(),
-    gender: Joi.string().valid("Male", "Female", "Both").required(),
-    description: Joi.string().required(),
+    trainingLevel: Joi.string()
+      .valid("Beginner", "Intermediate", "Advanced")
+      .required(),
+    programDuration: Joi.string().required(),
+    daysPerWeek: Joi.string()
+      .valid("1", "2", "3", "4", "5", "6", "7")
+      .required(),
+    timePerWorkout: Joi.string().required(),
+    gender: Joi.string().valid("Male", "Female", "All Genders").required(),
     summary: Joi.string().required(),
+    description: Joi.string().required(),
+  }).required(),
+});
+
+module.exports.reviewSchema = Joi.object({
+  review: Joi.object({
+    rating: Joi.number().required().min(1).max(5),
+    body: Joi.string().required(),
   }).required(),
 });

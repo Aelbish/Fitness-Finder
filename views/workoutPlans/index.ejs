@@ -15,14 +15,20 @@
     <div class="col-md-8">
       <div class="card-body">
         <h5 class="card-title"><%= work.title %></h5>
-        <p class="card-text"><%= work.category %> Category</p>
+        <p class="card-text"><%= work.goal %></p>
         <p class="card-text">
           <small class="text-muted"
-            ><% if (work.gender === "Both") { %>Focused For All Genders, <% }
-            else { %>Focused For <%= work.gender %>, <% } %><%= work.duration%>
-            Per Session, <%= work.daysPerWeek %> Days Per Week</small
+            ><%= work.category%> For <%= work.gender %> & <%= work.trainingLevel
+            %> Level</small
           >
         </p>
+        <p class="card-text">
+          <small class="text-muted"
+            >Program Runs For <%= work.programDuration%>, <%= work.daysPerWeek
+            %> Days Per Week, <%= work.timePerWorkout %> Per Workout</small
+          >
+        </p>
+        <p class="card-text"><%= work.summary %></p>
         <a class="btn btn-primary" href="/workoutplans/<%= work._id %>">View</a>
       </div>
     </div>

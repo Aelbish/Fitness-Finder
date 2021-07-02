@@ -16,29 +16,42 @@ db.once("open", () => {
 });
 
 const workoutPlanTypes = [
-  "Whole-body Split",
-  "Upper and Lower body Split",
+  "Single Muscle Group",
+  "Full Body",
+  "Cardio/HITT",
   "Push/Pull/Leg",
+  "3-Day Split",
   "4-Day Split",
-  "5-day Split",
+  "5-Day Split",
+  "Custom Split",
 ];
-
-const genders = ["Male", "Female", "Both"];
+const goals = [
+  "Build Muscle",
+  "Increase Strength",
+  "Lose Fat/Tone Up",
+  "Increase Endurance/Stamina",
+];
+const trainingLevels = ["Beginner", "Intermediate", "Advanced"];
 const days = ["4", "5", "6"];
+const genders = ["Male", "Female", "All Genders"];
 
 const seedDB = async () => {
   await WorkoutPlan.deleteMany({});
   for (let i = 0; i < 50; i++) {
-    const random5 = Math.floor(Math.random() * 5);
+    const random8 = Math.floor(Math.random() * 8);
     const random3 = Math.floor(Math.random() * 3);
+    const random4 = Math.floor(Math.random() * 4);
     const work = new WorkoutPlan({
-      title: workoutPlanTypes[random5],
-      duration: "45 mins",
+      title: workoutPlanTypes[random8],
+      goal: goals[random4],
+      category: workoutPlanTypes[random8],
+      trainingLevel: trainingLevels[random3],
+      programDuration: "8 weeks",
       daysPerWeek: days[random3],
+      timePerWorkout: "1 hr",
       gender: genders[random3],
-      category: workoutPlanTypes[random5],
-      description: "This is a randomly generated workout",
-      summary: `${workoutPlanTypes[random5]} program by Random User`,
+      summary: `${workoutPlanTypes[random8]} program generated randomly. This is a fake workout plan. This fake program is an eight week program.`,
+      description: "The full workout will go here.",
     });
     await work.save();
   }

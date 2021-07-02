@@ -2,16 +2,17 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
-const { workoutPlanSchema } = require("./Schemas");
+const { workoutPlanSchema, reviewSchema } = require("./Schemas");
 const tryCatchAsync = require("./utils/tryCatchAsync");
 const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
 const WorkoutPlan = require("./models/workoutPlan");
-const { validate } = require("./models/workoutPlan");
+const Review = require("./models/review");
 
 //Connecting to Mongo
 mongoose.connect("mongodb://localhost:27017/fitness-finder", {
   useNewUrlParser: true,
+  useFindAndModify: false,
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
@@ -47,6 +48,15 @@ const validateWorkout = (req, res, next) => {
     next();
   }
 };
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
 
 app.get("/", (req, res) => {
   res.render("home.ejs");
@@ -67,18 +77,32 @@ app.get(
 );
 
 app.get("/workoutplans/new", (req, res) => {
-  const daysPerWeek = ["1", "2", "3", "4", "5", "6", "7"];
+  const goals = [
+    "Build Muscle",
+    "Increase Strength",
+    "Increase Endurance/Stamina",
+    "Lose Fat/Tone Up",
+  ];
   const categories = [
-    "Single body part Workout",
-    "Whole-body Split",
-    "Upper and Lower body Split",
+    "Single Muscle Group",
+    "Full Body",
+    "Cardio/HITT",
     "Push/Pull/Leg",
+    "3-Day Split",
     "4-Day Split",
-    "5-day Split",
+    "5-Day Split",
     "Custom Split",
   ];
-  const genders = ["Male", "Female", "Both"];
-  res.render("workoutPlans/new.ejs", { daysPerWeek, categories, genders });
+  const trainingLevels = ["Beginner", "Intermediate", "Advanced"];
+  const daysPerWeek = ["1", "2", "3", "4", "5", "6", "7"];
+  const genders = ["Male", "Female", "All Genders"];
+  res.render("workoutPlans/new.ejs", {
+    goals,
+    categories,
+    trainingLevels,
+    daysPerWeek,
+    genders,
+  });
 });
 
 app.post(
@@ -95,7 +119,7 @@ app.get(
   "/workoutplans/:id",
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
-    const workout = await WorkoutPlan.findById(id);
+    const workout = await WorkoutPlan.findById(id).populate("reviews");
     res.render("workoutplans/show.ejs", { workout });
   })
 );
@@ -103,23 +127,33 @@ app.get(
 app.get(
   "/workoutplans/:id/edit",
   tryCatchAsync(async (req, res) => {
-    const daysPerWeek = ["1", "2", "3", "4", "5", "6", "7"];
+    const goals = [
+      "Build Muscle",
+      "Increase Strength",
+      "Increase Endurance/Stamina",
+      "Lose Fat/Tone Up",
+    ];
     const categories = [
-      "Single body part Workout",
-      "Whole-body Split",
-      "Upper and Lower body Split",
+      "Single Muscle Group",
+      "Full Body",
+      "Cardio/HITT",
       "Push/Pull/Leg",
+      "3-Day Split",
       "4-Day Split",
-      "5-day Split",
+      "5-Day Split",
       "Custom Split",
     ];
-    const genders = ["Male", "Female", "Both"];
+    const trainingLevels = ["Beginner", "Intermediate", "Advanced"];
+    const daysPerWeek = ["1", "2", "3", "4", "5", "6", "7"];
+    const genders = ["Male", "Female", "All Genders"];
     const { id } = req.params;
     const workout = await WorkoutPlan.findById(id);
     res.render("workoutplans/edit.ejs", {
       workout,
-      daysPerWeek,
+      goals,
       categories,
+      trainingLevels,
+      daysPerWeek,
       genders,
     });
   })
@@ -147,6 +181,28 @@ app.delete(
   })
 );
 
+app.post(
+  "/workoutplans/:id/reviews",
+  validateReview,
+  tryCatchAsync(async (req, res) => {
+    const workout = await WorkoutPlan.findById(req.params.id);
+    const review = new Review(req.body.review);
+    workout.reviews.push(review);
+    await review.save();
+    await workout.save();
+    res.redirect(`/workoutplans/${workout._id}`);
+  })
+);
+
+app.delete(
+  "/workoutplans/:id/reviews/:reviewId",
+  tryCatchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await WorkoutPlan.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/workoutplans/${id}`);
+  })
+);
 //Catch all other undefined routes, order of this is important, this is at the end
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

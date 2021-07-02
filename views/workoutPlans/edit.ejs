@@ -10,8 +10,13 @@
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
-            <label class="form-label" for="summary">Description</label>
-            <textarea class="form-control" id="summary" name="workout[summary]" rows="4"><%= workout.summary %></textarea>
+            <label class="form-label" for="goal">Goal</label>
+            <select class="form-select" name="workout[goal]" id="goal" required>
+              <option selected disabled value="">Choose...</option>
+              <% for (let goal of goals) {%>
+              <option value="<%= goal %>" <%= workout.goal === goal ? "selected":"" %>><%= goal %></option>
+              <% } %>
+            </select>
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
@@ -35,6 +40,21 @@
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
+            <label class="form-label" for="trainingLevel">Level</label>
+            <select class="form-select" name="workout[trainingLevel]" id="trainingLevel" required>
+              <option selected disabled value="">Choose...</option>
+              <% for (let trainingLevel of trainingLevels) {%>
+              <option value="<%= trainingLevel %>" <%= workout.trainingLevel === trainingLevel ? "selected":"" %>><%= trainingLevel %></option>
+              <% } %>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="programDuration">Program Duration</label>
+            <input class="form-control" type="text" id="programDuration" name="workout[programDuration]" value="<%= workout.programDuration %>" required/>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="mb-3">
             <label class="form-label" for="daysPerWeek">Days Per Week</label>
             <select class="form-select" name="workout[daysPerWeek]" id="daysPerWeek" required>
               <option selected disabled value="">Choose...</option>
@@ -44,16 +64,79 @@
             </select>
             <div class="valid-feedback">Looks good!</div>
           </div>
-    
           <div class="mb-3">
-            <label class="form-label" for="duration">Duration per workout</label>
-            <input class="form-control" type="text" id="duration" name="workout[duration]" value="<%= workout.duration %>" required/>
+            <label class="form-label" for="timePerWorkout">Time Per Workout</label>
+            <input class="form-control" type="text" id="timePerWorkout" name="workout[timePerWorkout]" value="<%= workout.timePerWorkout %>" required/>
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
+            <label class="form-label" for="summary">Summary</label>
+            <textarea class="form-control" id="summary" name="workout[summary]" cols="30" rows="4" placeholder="Add a summary or basic introduction for the workout ..."><%= workout.summary %></textarea>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          
+    
+          
+          <!-- <div class="mb-3">
             <label class="form-label" for="description">Workout</label>
             <textarea class="form-control" id="description" name="workout[description]" rows="25" required><%= workout.description %></textarea>
             <div class="valid-feedback">Looks good!</div>
+          </div> -->
+          <div class="mb-3">
+            <label class="form-label" for="description">Workout Plan</label>
+            <!-- Button trigger modal -->
+            <button
+              type="button"
+              class="btn btn-dark form-control"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              Edit Workout
+            </button>
+    
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="staticBackdrop"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                      Workout Plan
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <textarea
+                      id="description"
+                      name="workout[description]"
+                      cols="30"
+                      rows="25" placeholder="Type your workout ..."
+                    ><%= workout.description %></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="mb-3"><button class="btn btn-warning">Update</button>
             <a href="/workoutplans/<%= workout._id %>" class="btn btn-danger">Cancel</a>
@@ -67,5 +150,6 @@
     selector: '#description',
     hidden_input: false,
     readonly: false,
+    height:"100%"
   });
 </script>
