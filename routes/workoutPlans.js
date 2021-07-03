@@ -10,6 +10,7 @@ const {
   genders,
 } = require("../utils/selectOption");
 const WorkoutPlan = require("../models/workoutPlan");
+const User = require("../models/user");
 
 router.get(
   "/",
@@ -49,17 +50,50 @@ router.post(
 );
 
 router.get(
-  "/:id",
+  "/saved",
+  isLoggedIn,
+  tryCatchAsync(async (req, res) => {
+    const user = await User.findById(req.user._id).populate("savedWorkouts");
+    res.render("workoutplans/save.ejs", { user });
+  })
+);
+
+router.get(
+  "/:id/save",
+  isLoggedIn,
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
-    const workout = await WorkoutPlan.findById(id)
-      .populate({ path: "reviews", populate: { path: "author" } })
-      .populate("author");
-    if (!workout) {
-      req.flash("error", "Cannot find that workout plan");
-      return res.redirect("/workoutplans");
+    const user = await User.findById(req.user._id);
+    const workout = await WorkoutPlan.findById(id);
+    var duplicateSave = false;
+    for (let work of user.savedWorkouts) {
+      if (work._id.equals(id)) {
+        duplicateSave = true;
+      }
     }
-    res.render("workoutplans/show.ejs", { workout });
+    if (!duplicateSave) {
+      user.savedWorkouts.push(workout._id);
+      await user.save();
+      req.flash("success", "Workout plan has been saved to your profile");
+      res.redirect(`/workoutplans/${workout._id}`);
+    } else {
+      req.flash(
+        "error",
+        "Workout plan has been previously saved to your profile"
+      );
+      res.redirect(`/workoutplans/${workout._id}`);
+    }
+  })
+);
+
+router.delete(
+  "/:id/save",
+  isLoggedIn,
+  tryCatchAsync(async (req, res) => {
+    const { id } = req.params;
+    await User.updateMany({}, { $pull: { savedWorkouts: id } });
+    req.flash("success", "Workout plan has been removed from your saved workouts");
+    res.redirect("/workoutplans");
   })
 );
 
@@ -86,6 +120,21 @@ router.get(
   })
 );
 
+router.get(
+  "/:id",
+  tryCatchAsync(async (req, res) => {
+    const { id } = req.params;
+    const workout = await WorkoutPlan.findById(id)
+      .populate({ path: "reviews", populate: { path: "author" } })
+      .populate("author");
+    if (!workout) {
+      req.flash("error", "Cannot find that workout plan");
+      return res.redirect("/workoutplans");
+    }
+    res.render("workoutplans/show.ejs", { workout });
+  })
+);
+
 router.put(
   "/:id",
   isLoggedIn,
@@ -107,6 +156,7 @@ router.delete(
   isAuthor,
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
+    await User.updateMany({}, { $pull: { savedWorkouts: id } });
     await WorkoutPlan.findByIdAndDelete(id);
     req.flash("success", "Workout plan has been deleted");
     res.redirect("/workoutplans");

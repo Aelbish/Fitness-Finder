@@ -1,0 +1,40 @@
+<% layout("layouts/boilerplate.ejs") %>
+<h1>Saved Workouts</h1>
+<% if (!user.savedWorkouts.length) { %>
+<h4>No saved workouts</h4>
+<% } else { %> <%for (let work of user.savedWorkouts) {%>
+<div class="card mb-3">
+  <div class="row">
+    <div class="col-md-4">
+      <img
+        class="img-fluid"
+        alt=""
+        src="https://www.thefamouspeople.com/profiles/images/david-laid-1.jpg"
+      />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= work.title %></h5>
+        <p class="card-text"><%= work.goal %></p>
+        <p class="card-text">
+          <small class="text-muted"
+            ><%= work.category%> For <%= work.gender %> & <%= work.trainingLevel
+            %> Level</small
+          >
+        </p>
+        <p class="card-text">
+          <small class="text-muted"
+            >Program Runs For <%= work.programDuration%>, <%= work.daysPerWeek
+            %> Days Per Week, <%= work.timePerWorkout %> Per Workout</small
+          >
+        </p>
+        <p class="card-text"><%= work.summary %></p>
+        <a class="btn btn-primary" href="/workoutplans/<%= work._id %>">View</a>
+        <form action="/workoutplans/<%= work._id %>/save/?_method=DELETE" method="POST">
+          <button class="btn btn-danger">Remove</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %> <% } %>

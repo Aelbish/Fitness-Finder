@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const { isLoggedIn, isAuthor } = require("../middleware");
 const tryCatchAsync = require("../utils/tryCatchAsync");
 const User = require("../models/user");
 
 router.get("/register", (req, res) => {
-  res.render("users/register");
+  res.render("users/register.ejs");
 });
 
 router.post(
@@ -28,7 +29,7 @@ router.post(
 );
 
 router.get("/login", (req, res) => {
-  res.render("users/login");
+  res.render("users/login.ejs");
 });
 
 router.post(
@@ -50,5 +51,13 @@ router.get("/logout", (req, res) => {
   req.flash("success", "Logged out");
   res.redirect("/workoutplans");
 });
+
+// router.get("/users/:id"),
+//   isLoggedIn,
+//   (req, res) => {
+//     const { id } = req.params;
+//     const user = await User.findById(id)
+//     res.render("users/show.ejs", {user});
+//   };
 
 module.exports = router;

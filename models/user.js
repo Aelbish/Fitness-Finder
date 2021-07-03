@@ -8,6 +8,12 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
+  savedWorkouts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "WorkoutPlan",
+    },
+  ],
 });
 
 UserSchema.plugin(passportLocalMongoose);

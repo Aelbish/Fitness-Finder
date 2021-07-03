@@ -107,6 +107,9 @@
         >
       </div>
     </div>
+    <form action="/workoutplans/<%= workout._id %>/save" method="GET">
+      <button class="btn btn-success">Save workout to your profile</button>
+    </form>
   </div>
   <div class="col-6 mb-3">
     <% if (currentUser) { %>
@@ -155,7 +158,7 @@
         <div class="card mb-3">
           <div class="card-body">
             <h5 class="card-title">Rating : <%= review.rating %></h5>
-            <h6 class="card-sbutitle mb-2 text-muted">
+            <h6 class="card-subtitle mb-2 text-muted">
               By <%= review.author.username %>
             </h6>
             <p class="card-text"><%= review.body %></p>
@@ -166,7 +169,7 @@
             >
               <button class="btn btn-sm btn-danger">Delete</button>
             </form>
-            <% } %> 
+            <% } %>
           </div>
         </div>
         <% } %> <% } %>
