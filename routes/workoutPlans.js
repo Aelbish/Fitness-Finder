@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { workoutPlanSchema } = require("../Schemas");
-const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, isAuthor, validateWorkout } = require("../middleware");
 const tryCatchAsync = require("../utils/tryCatchAsync");
-const ExpressError = require("../utils/ExpressError");
 const {
   goals,
   categories,
@@ -12,17 +10,6 @@ const {
   genders,
 } = require("../utils/selectOption");
 const WorkoutPlan = require("../models/workoutPlan");
-
-//Server-side data validator middleware
-const validateWorkout = (req, res, next) => {
-  const { error } = workoutPlanSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
 
 router.get(
   "/",
@@ -54,6 +41,7 @@ router.post(
   validateWorkout,
   tryCatchAsync(async (req, res, next) => {
     const workout = new WorkoutPlan(req.body.workout);
+    workout.author = req.user._id;
     await workout.save();
     req.flash("success", "New workout plan has been added");
     res.redirect(`/workoutplans/${workout._id}`);
@@ -64,7 +52,9 @@ router.get(
   "/:id",
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
-    const workout = await WorkoutPlan.findById(id).populate("reviews");
+    const workout = await WorkoutPlan.findById(id)
+      .populate({ path: "reviews", populate: { path: "author" } })
+      .populate("author");
     if (!workout) {
       req.flash("error", "Cannot find that workout plan");
       return res.redirect("/workoutplans");
@@ -76,6 +66,7 @@ router.get(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isAuthor,
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
     const workout = await WorkoutPlan.findById(id);
@@ -83,6 +74,7 @@ router.get(
       req.flash("error", "Cannot find that workout plan");
       return res.redirect("/workoutplans");
     }
+
     res.render("workoutplans/edit.ejs", {
       workout,
       goals,
@@ -97,6 +89,7 @@ router.get(
 router.put(
   "/:id",
   isLoggedIn,
+  isAuthor,
   validateWorkout,
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
@@ -111,6 +104,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isAuthor,
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
     await WorkoutPlan.findByIdAndDelete(id);

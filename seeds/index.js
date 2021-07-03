@@ -52,6 +52,7 @@ const seedDB = async () => {
       gender: genders[random3],
       summary: `${workoutPlanTypes[random8]} program generated randomly. This is a fake workout plan. This fake program is an eight week program.`,
       description: "The full workout will go here.",
+      author: "60df7721e35c7a2b4ca6b50f",
     });
     await work.save();
   }

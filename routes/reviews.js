@@ -1,28 +1,18 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const { reviewSchema } = require("../Schemas");
 const tryCatchAsync = require("../utils/tryCatchAsync");
-const ExpressError = require("../utils/ExpressError");
 const WorkoutPlan = require("../models/workoutPlan");
 const Review = require("../models/review");
-
-//Server-side data validator middleware
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");
 
 router.post(
   "/",
+  isLoggedIn,
   validateReview,
   tryCatchAsync(async (req, res) => {
     const workout = await WorkoutPlan.findById(req.params.id);
     const review = new Review(req.body.review);
+    review.author = req.user._id;
     workout.reviews.push(review);
     await review.save();
     await workout.save();
@@ -33,6 +23,8 @@ router.post(
 
 router.delete(
   "/:reviewId",
+  isLoggedIn,
+  isReviewAuthor,
   tryCatchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await WorkoutPlan.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });

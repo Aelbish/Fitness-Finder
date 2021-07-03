@@ -42,6 +42,10 @@ const WorkoutPlanSchema = new Schema({
   },
   summary: String,
   description: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,
