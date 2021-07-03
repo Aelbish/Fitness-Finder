@@ -14,6 +14,15 @@ const UserSchema = new Schema({
       ref: "WorkoutPlan",
     },
   ],
+  bio: { type: String, default: " ... " },
+  location: { type: String, default: "West Monroe, Louisiana" },
+  images: {
+    type: [String],
+    default: "https://www.thefamouspeople.com/profiles/images/david-laid-1.jpg",
+  },
+  bench: { type: Number, default: 0 },
+  dead: { type: Number, default: 0 },
+  squat: { type: Number, default: 0 },
 });
 
 UserSchema.plugin(passportLocalMongoose);

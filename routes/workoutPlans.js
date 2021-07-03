@@ -92,7 +92,10 @@ router.delete(
   tryCatchAsync(async (req, res) => {
     const { id } = req.params;
     await User.updateMany({}, { $pull: { savedWorkouts: id } });
-    req.flash("success", "Workout plan has been removed from your saved workouts");
+    req.flash(
+      "success",
+      "Workout plan has been removed from your saved workouts"
+    );
     res.redirect("/workoutplans");
   })
 );

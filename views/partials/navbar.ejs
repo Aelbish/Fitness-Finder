@@ -89,8 +89,10 @@
         <a class="nav-link" href="/login">Login</a>
         <a class="nav-link" href="/register">Register</a>
         <% } else { %>
+        <a class="nav-link" href="/users/<%= currentUser._id %>"
+          ><%= currentUser.username %></a
+        >
         <a class="nav-link" href="/workoutplans/saved">Saved</a>
-        <a class="nav-link" href=""><%= currentUser.username %></a>
         <a class="nav-link" href="/logout">Logout</a>
         <% } %>
       </div>
