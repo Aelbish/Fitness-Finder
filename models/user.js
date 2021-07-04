@@ -14,12 +14,14 @@ const UserSchema = new Schema({
       ref: "WorkoutPlan",
     },
   ],
+  images: [{ url: String, filename: String }],
   bio: { type: String, default: " ... " },
   location: { type: String, default: "Los Angeles, California" },
-  images: {
-    type: [String],
-    default: "https://www.thefamouspeople.com/profiles/images/david-laid-1.jpg",
-  },
+  // images: {
+  //   type: [String],
+  //   default:
+  //     "https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331257_960_720.png",
+  // },
   bench: { type: Number, default: 0 },
   dead: { type: Number, default: 0 },
   squat: { type: Number, default: 0 },

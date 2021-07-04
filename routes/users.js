@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const multer = require("multer");
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
 const { isLoggedIn, validateUser } = require("../middleware");
 const tryCatchAsync = require("../utils/tryCatchAsync");
 const users = require("../controllers/users");
@@ -26,7 +29,12 @@ router.get("/logout", users.logout);
 router
   .route("/users/:id/edit")
   .get(isLoggedIn, tryCatchAsync(users.renderUserEditForm))
-  .put(isLoggedIn, validateUser, tryCatchAsync(users.updateUser));
+  .post(
+    isLoggedIn,
+    upload.array("image"),
+    validateUser,
+    tryCatchAsync(users.updateUser)
+  );
 
 router.get("/users/:id", isLoggedIn, tryCatchAsync(users.viewUser));
 

@@ -52,7 +52,7 @@ module.exports.userSchema = Joi.object({
   }),
   bio: Joi.string(),
   location: Joi.string(),
-  images: Joi.string(),
+  // images: Joi.string(),
   bench: Joi.number().integer().min(0).max(2000),
   dead: Joi.number().integer().min(0).max(2000),
   squat: Joi.number().integer().min(0).max(2000),

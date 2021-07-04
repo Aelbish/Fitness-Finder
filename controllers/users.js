@@ -54,6 +54,9 @@ module.exports.renderUserEditForm = async (req, res) => {
 module.exports.updateUser = async (req, res) => {
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, { ...req.body });
+  user.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  await user.save();
+  console.log(user);
   req.flash("success", "Profile has been updated");
   res.redirect(`/users/${id}`);
 };
