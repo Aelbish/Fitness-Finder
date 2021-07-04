@@ -2,6 +2,13 @@ const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose");
 const { Schema } = mongoose;
 
+const ImageSchema = new Schema({
+  url: String,
+  filename: String,
+});
+ImageSchema.virtual("thumbnail").get(function () {
+  return this.url.replace("/upload", "/upload/w_200");
+});
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -14,7 +21,7 @@ const UserSchema = new Schema({
       ref: "WorkoutPlan",
     },
   ],
-  images: [{ url: String, filename: String }],
+  images: [ImageSchema],
   bio: { type: String, default: " ... " },
   location: { type: String, default: "Los Angeles, California" },
   // images: {

@@ -38,18 +38,25 @@
         />
         <div class="invalid-feedback">Please enter a valid location.</div>
       </div>
-      <input type="file" name="image" id="" multiple />
-      <!-- <div class="mb-3">
-        <label class="form-label" for="images">Images</label>
+      <div class="mb-3">
+        <label for="image" class="form-label">Add Profile Image(s) ... </label>
         <input
           class="form-control"
-          type="text"
-          id="images"
-          name="images"
-          value="<%= user.images[0]%>"
+          type="file"
+          id="image"
+          name="image"
+          multiple
         />
-        <div class="valid-feedback">Looks good!</div>
-      </div> -->
+      </div>
+      <div class="mb-3">
+        <% user.images.forEach(function(img, i){%>
+        <img class="img-thumbnail" src="<%=img.thumbnail%>" alt="" />
+        <div class="form-check-inline">
+          <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%= img.filename %>"/>
+        </div>
+        <label for="image-<%=i%>">Delete?</label>
+        <% }) %>
+      </div>
       <div class="mb-3">
         <label class="form-label" for="bench">Bench Press 1RM</label>
         <div class="input-group">

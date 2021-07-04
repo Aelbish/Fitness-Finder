@@ -56,4 +56,5 @@ module.exports.userSchema = Joi.object({
   bench: Joi.number().integer().min(0).max(2000),
   dead: Joi.number().integer().min(0).max(2000),
   squat: Joi.number().integer().min(0).max(2000),
+  deleteImages: Joi.array(),
 }).required();

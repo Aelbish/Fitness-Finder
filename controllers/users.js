@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const { cloudinary } = require("../cloudinary");
 
 module.exports.renderRegisterForm = (req, res) => {
   res.render("users/register.ejs");
@@ -54,9 +55,17 @@ module.exports.renderUserEditForm = async (req, res) => {
 module.exports.updateUser = async (req, res) => {
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, { ...req.body });
-  user.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  user.images.push(...imgs);
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages){
+      await cloudinary.uploader.destroy(filename);
+    }
+    await user.updateOne({
+      $pull: { images: { filename: { $in: req.body.deleteImages } } },
+    });
+  }
   await user.save();
-  console.log(user);
   req.flash("success", "Profile has been updated");
   res.redirect(`/users/${id}`);
 };
