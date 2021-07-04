@@ -10,12 +10,14 @@
       name="username"
       required
     />
-    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">
+      Username must be between 3 to 30 characters.
+    </div>
   </div>
   <div class="mb-3">
     <label class="form-label" for="email">Email</label>
     <input class="form-control" type="email" id="email" name="email" required />
-    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please enter valid email.</div>
   </div>
   <div class="mb-3">
     <label class="form-label" for="password">Password</label>
@@ -26,7 +28,9 @@
       name="password"
       required
     />
-    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">
+      Password must be between 3 to 13 characters.
+    </div>
   </div>
   <button class="btn btn-success">Register</button>
 </form>

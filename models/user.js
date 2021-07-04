@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     },
   ],
   bio: { type: String, default: " ... " },
-  location: { type: String, default: "West Monroe, Louisiana" },
+  location: { type: String, default: "Los Angeles, California" },
   images: {
     type: [String],
     default: "https://www.thefamouspeople.com/profiles/images/david-laid-1.jpg",

@@ -15,6 +15,7 @@ const User = require("./models/user");
 const workoutPlanRoutes = require("./routes/workoutPlans");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
+const toolRoutes = require("./routes/tools");
 
 //Connecting to Mongo
 mongoose.connect("mongodb://localhost:27017/fitness-finder", {
@@ -80,7 +81,9 @@ app.use((req, res, next) => {
 app.use("/workoutplans", workoutPlanRoutes);
 //Use routes for reviews and set the prefix as /workoutplans/:id/reviews
 app.use("/workoutplans/:id/reviews", reviewRoutes);
+
 app.use("/", userRoutes);
+app.use("/tools", toolRoutes);
 
 app.get("/fakeuser", async (req, res) => {
   const user = new User({ username: "admin", email: "admin@gmail.com" });

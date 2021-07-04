@@ -42,3 +42,18 @@ module.exports.reviewSchema = Joi.object({
     body: Joi.string().required(),
   }).required(),
 });
+
+module.exports.userSchema = Joi.object({
+  username: Joi.string().alphanum().min(3).max(30),
+  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,13}$")),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net"] },
+  }),
+  bio: Joi.string(),
+  location: Joi.string(),
+  images: Joi.string(),
+  bench: Joi.number().integer().min(0).max(2000),
+  dead: Joi.number().integer().min(0).max(2000),
+  squat: Joi.number().integer().min(0).max(2000),
+}).required();

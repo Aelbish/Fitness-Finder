@@ -1,4 +1,4 @@
-const { workoutPlanSchema, reviewSchema } = require("./Schemas");
+const { workoutPlanSchema, reviewSchema, userSchema } = require("./Schemas");
 const ExpressError = require("./utils/ExpressError");
 const WorkoutPlan = require("./models/workoutPlan");
 const Review = require("./models/review");
@@ -15,6 +15,26 @@ module.exports.isLoggedIn = (req, res, next) => {
 //Server-side data validator middleware
 module.exports.validateWorkout = (req, res, next) => {
   const { error } = workoutPlanSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+//Server-side data validator middleware
+module.exports.validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+//Server-side data validator middleware
+module.exports.validateUser = (req, res, next) => {
+  const { error } = userSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
@@ -41,15 +61,4 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     return res.redirect(`/workoutplans/${id}`);
   }
   next();
-};
-
-//Server-side data validator middleware
-module.exports.validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
 };
