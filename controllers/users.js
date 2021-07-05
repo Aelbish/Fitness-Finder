@@ -1,4 +1,7 @@
 const User = require("../models/user");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require("../cloudinary");
 
 module.exports.renderRegisterForm = (req, res) => {
@@ -53,12 +56,19 @@ module.exports.renderUserEditForm = async (req, res) => {
 };
 
 module.exports.updateUser = async (req, res) => {
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.location,
+      limit: 1,
+    })
+    .send();
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, { ...req.body });
+  user.geometry = geoData.body.features[0].geometry;
   const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   user.images.push(...imgs);
   if (req.body.deleteImages) {
-    for (let filename of req.body.deleteImages){
+    for (let filename of req.body.deleteImages) {
       await cloudinary.uploader.destroy(filename);
     }
     await user.updateOne({
