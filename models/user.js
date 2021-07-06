@@ -30,10 +30,11 @@ const UserSchema = new Schema({
       enum: ["Point"],
       required: true,
     },
-    coordiantes: {
+    coordinates: {
       type: [Number],
       required: true,
     },
+    default: { type: "Point", coordinates: [-118.2437, 34.0522] },
   },
   bench: { type: Number, default: 0 },
   dead: { type: Number, default: 0 },

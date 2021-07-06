@@ -2,6 +2,7 @@ const { workoutPlanSchema, reviewSchema, userSchema } = require("./Schemas");
 const ExpressError = require("./utils/ExpressError");
 const WorkoutPlan = require("./models/workoutPlan");
 const Review = require("./models/review");
+const User = require("./models/user");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -59,6 +60,16 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   if (!review.author.equals(req.user._id)) {
     req.flash("error", "You do not have that permission");
     return res.redirect(`/workoutplans/${id}`);
+  }
+  next();
+};
+
+module.exports.isOwner = async (req, res, next) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user._id.equals(req.user._id)) {
+    req.flash("error", "You do not have that permission");
+    return res.redirect("/workoutplans");
   }
   next();
 };
