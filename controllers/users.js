@@ -85,3 +85,8 @@ module.exports.viewUser = async (req, res) => {
   const user = await User.findById(id);
   res.render("users/show.ejs", { user });
 };
+
+module.exports.viewUserClusterMap = async (req, res) => {
+  const users = await User.find({});
+  res.render("users/userClusterMap.ejs", { users });
+};

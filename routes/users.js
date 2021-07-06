@@ -26,6 +26,8 @@ router
 
 router.get("/logout", users.logout);
 
+router.get("/users/usermapcluster", isLoggedIn, users.viewUserClusterMap);
+
 router
   .route("/users/:id/edit")
   .get(isLoggedIn, isOwner, tryCatchAsync(users.renderUserEditForm))
