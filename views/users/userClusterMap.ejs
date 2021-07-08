@@ -1,5 +1,7 @@
 <% layout("layouts/boilerplate.ejs") %>
-<div id="map" style="width: 100%; height: 600px"></div>
+<h1>Fitness Pals</h1>
+<h4><small class="text-muted">Explore the cluster map and find a new fitness pal</small></h4>
+<article class="postcard dark blue"><div id="cluster-map"></div></article>
 
 <script>
     const mapToken = "<%-process.env.MAPBOX_TOKEN%>";

@@ -1,6 +1,6 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
-  container: "map",
+  container: "map-gym",
   style: "mapbox://styles/aelbish/ckqu1yhpo01fn18lcw8busd9n",
   center: user.geometry.coordinates,
   zoom: 12,

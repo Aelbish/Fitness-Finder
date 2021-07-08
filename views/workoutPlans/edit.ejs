@@ -1,5 +1,4 @@
 <% layout("layouts/boilerplate.ejs") %>
-
 <div class="row">
   <h1 class="text-center">Edit Workout Plan</h1>
   <div class="col-6 offset-3">
@@ -85,18 +84,19 @@
           <div class="mb-3">
             <label class="form-label" for="description">Workout Plan</label>
             <!-- Button trigger modal -->
+            <div class="d-grid gap-2">
             <button
               type="button"
-              class="btn btn-dark form-control"
+              class="btn btn-sm btn-dark form-control"
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop"
             >
               Edit Workout
             </button>
-    
+          </div>
             <!-- Modal -->
             <div
-              class="modal fade"
+              class="modal fade card-rounded"
               id="staticBackdrop"
               data-bs-backdrop="static"
               data-bs-keyboard="false"
@@ -112,7 +112,7 @@
                     </h5>
                     <button
                       type="button"
-                      class="btn-close"
+                      class="btn-sm btn-close"
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     ></button>
@@ -128,7 +128,7 @@
                   <div class="modal-footer">
                     <button
                       type="button"
-                      class="btn btn-secondary"
+                      class="btn btn-sm btn-secondary"
                       data-bs-dismiss="modal"
                     >
                       Save
@@ -138,8 +138,9 @@
               </div>
             </div>
           </div>
-          <div class="mb-3"><button class="btn btn-warning">Update</button>
-            <a href="/workoutplans/<%= workout._id %>" class="btn btn-danger">Cancel</a>
+          <div class="mb-3"><div class="d-grid gap-2 col-6 mx-auto mb-3"><button class="btn btn-sm btn-warning">Update Workout</button>
+            <a href="/workoutplans/<%= workout._id %>" class="btn btn-sm btn-danger">Cancel</a>
+          </div>
           </div>
     </form>
   </div>

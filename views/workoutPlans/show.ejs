@@ -1,14 +1,101 @@
 <% layout("layouts/boilerplate.ejs") %>
 <link rel="stylesheet" href="/stylesheets/stars.css" />
+<h1><%= workout.title %></h1>
 <div class="row">
   <div class="col-6">
-    <div
+    <article class="postcard dark blue">
+      <div class="postcard__text">
+        <div class="postcard__preview-txt"><%= workout.summary %></br>
+          <i class="fas fa-bullseye"></i>&nbsp;&nbsp;<%= workout.goal %></br>
+          <i class="fas fa-dumbbell"></i>&nbsp;&nbsp;<%= workout.category %></br>
+          <i class="fas fa-medal"></i>&nbsp;&nbsp;<%= workout.trainingLevel %></br>
+          <i class="fas fa-calendar"></i>&nbsp;&nbsp;<%= workout.programDuration %> Program</br>
+          <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;<%= workout.daysPerWeek %> Day(s) Per Week</br>
+          <i class="fas fa-stopwatch"></i>&nbsp;&nbsp;<%= workout.timePerWorkout %> Per Session</br>
+          <i class="fas fa-walking"></i>&nbsp;&nbsp;<% if (workout.gender === "All Genders") { %>All Genders<%
+          } else { %><%= workout.gender %><% } %>
+        </div>
+
+        <ul class="postcard__tagbox">
+          <li class="tag__item play blue">
+          <button
+            type="button"
+            class="btn-rounded"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">
+            View Workout
+          </button>
+          <div
+            class="modal fade card-rounded"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-fullscreen">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel" style="color: black;">Workout Plan</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <textarea id="description" cols="30" rows="25">
+<%=workout.description%></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </li>
+          </ul>
+          <ul class="postcard__tagbox">
+      <li class="tag__item play blue"><form action="/workoutplans/<%= workout._id %>/save" method="GET">
+      <button class="btn-rounded">Save Workout</button>
+    </form></li>
+        </ul>
+          <ul class="postcard__tagbox mb-3">
+          <% if (currentUser && workout.author.equals(currentUser._id)) { %>
+            <li class="tag__item play blue">
+        <a
+          href="/workoutplans/<%= workout._id %>/edit"
+          >Edit</a
+        ></li><li class="tag__item play blue">
+        <form
+          class="d-inline"
+          action="/workoutplans/<%= workout._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn-rounded">Delete</button>
+        </form></li></ul>
+      <% } %>
+        <div class="postcard__subtitle small">
+          <i class="far fa-user"></i>&nbsp;&nbsp;Submitted by <%=
+          workout.author.username %>
+        </div>
+      </article>
+      <article class="postcard dark blue">
+      <div
       id="workoutCarousel"
       class="carousel slide"
       data-bs-ride="carousel"
     >
     <% if (workout.author.images.length) { %> 
-      <div class="carousel-inner">
+      <div class="carousel-inner tales">
         <%workout.author.images.forEach((img, i) => { %>
         <div class="carousel-item <%= i === 0 ? "active" : "" %>">
           <img src="<%= img.url %>" class="d-block w-100" alt="" />
@@ -37,116 +124,15 @@
       <% } %> <% } else { %>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331257_960_720.png" class="d-block w-100" alt="" />
+            <img src="https://ak.picdn.net/shutterstock/videos/1027807277/thumb/6.jpg" class="d-block w-100" alt="" />
           </div>
         </div>
         <% } %> 
     </div>
-    <div class="card mb-3">
-      <div class="card-body">
-        <h5 class="card-title"><%= workout.title %></h5>
-        <p class="card-text"><%= workout.summary %></p>
+    </article>
       </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">Goal : <%= workout.goal %></li>
-        <li class="list-group-item">Category : <%= workout.category %></li>
-        <li class="list-group-item">
-          Training Level : <%= workout.trainingLevel %>
-        </li>
-        <li class="list-group-item">
-          Program Duration : <%= workout.programDuration %>
-        </li>
-        <li class="list-group-item">
-          Days Per Week : <%= workout.daysPerWeek %>
-        </li>
-        <li class="list-group-item">
-          Time Per Workout : <%= workout.timePerWorkout %>
-        </li>
-        <li class="list-group-item">
-          <% if (workout.gender === "All Genders") { %>Target Gender : All
-          Genders<% } else { %>Target Gender : <%= workout.gender %><% } %>
-        </li>
 
-        <li class="list-group-item">
-          <!-- Button trigger modal -->
-          <button
-            type="button"
-            class="btn btn-dark"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-          >
-            View Workout
-          </button>
 
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="staticBackdrop"
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            tabindex="-1"
-            aria-labelledby="staticBackdropLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-fullscreen">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel">
-                    Workout Plan
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <textarea id="description" cols="30" rows="25">
-<%=workout.description%></textarea
-                  >
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <% if (currentUser && workout.author.equals(currentUser._id)) { %>
-      <div class="card-body">
-        <a
-          class="btn btn-info"
-          href="/workoutplans/<%= workout._id %>/edit"
-          class="card-link"
-          >Edit</a
-        >
-        <form
-          class="d-inline"
-          action="/workoutplans/<%= workout._id %>?_method=DELETE"
-          method="POST"
-        >
-          <button class="btn btn-danger">Delete</button>
-        </form>
-      </div>
-      <% } %>
-      <div class="card-footer">
-        <small class="card-subtitle mb-2 text-muted"
-          >Submitted by <%= workout.author.username %></small
-        >
-      </div>
-    </div>
-    <form action="/workoutplans/<%= workout._id %>/save" method="GET">
-      <button class="btn btn-success">Save workout to your profile</button>
-    </form>
-  </div>
   <div class="col-6 mb-3">
     <% if (currentUser) { %>
     <div>
@@ -217,7 +203,7 @@
           ></textarea>
           <div class="valid-feedback">Looks good!</div>
         </div>
-        <button class="btn btn-success">Submit</button>
+        <button class="btn btn-sm btn-success">Submit</button>
       </form>
     </div>
     <% } %>

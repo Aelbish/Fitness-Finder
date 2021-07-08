@@ -1,5 +1,13 @@
 <% layout("layouts/boilerplate.ejs") %>
-<div id="map" style="width: 100%; height: 600px"></div>
+<h1>Find Gyms Near You</h1>
+<h4>
+  <small class="text-muted"
+    >Type "Gym" in the search bar to populate gyms near your location
+  </small>
+</h4>
+<a href="/users/<%= user._id %>/edit">Update Location?</a>
+
+<article class="postcard dark blue"><div id="map-gym"></div></article>
 
 <!-- Load the `mapbox-gl-geocoder` plugin. -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
@@ -15,7 +23,6 @@
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 
 <div id="map"></div>
-
 <script>
   const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
   const user = <%- JSON.stringify(user)%>

@@ -1,0 +1,48 @@
+#cluster-map {
+  width: 100%;
+  height: 500px;
+  color: black;
+}
+
+#map {
+  width: 100%;
+  height: 300px;
+  color: black;
+}
+
+#map-gym {
+  width: 100%;
+  height: 500px;
+  color: black;
+}
+
+.btn-rounded {
+  border-radius: 20em;
+  color: white;
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  cursor: pointer;
+}
+
+.carousel-tales {
+  width: 100%;
+}
+.carousel-inner {
+  width: 100%;
+  max-height: 400px !important;
+}
+
+.card-rounded {
+  border-radius: 0.8em;
+}
+
+.card-image {
+  border-top-left-radius: 0.8em;
+  border-top-right-radius: 0.8em;
+}
+
+.canvas-rounded {
+  border-top-left-radius: 0.8em;
+  border-bottom-left-radius: 0.8em;
+}

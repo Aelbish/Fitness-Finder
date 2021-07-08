@@ -73,7 +73,7 @@ module.exports.removeSavedWorkout = async (req, res) => {
     "success",
     "Workout plan has been removed from your saved workouts"
   );
-  res.redirect("/workoutplans");
+  res.redirect("/workoutplans/saved");
 };
 
 module.exports.renderEditForm = async (req, res) => {

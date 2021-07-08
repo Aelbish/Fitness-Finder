@@ -1,53 +1,72 @@
 <% layout("layouts/boilerplate.ejs") %>
-<div class="card mb-3">
-  <h1><%= user.username %></h1>
-  <h1><%= user.bio %></h1>
-  <h1><%= user.location %></h1>
-  <h1><%= user.bench %></h1>
-  <h1><%= user.dead %></h1>
-  <h1><%= user.squat %></h1>
-  <div
-  id="userCarousel"
-  class="carousel slide"
-  data-bs-ride="carousel"
->
-<% if (user.images.length) { %> 
-  <div class="carousel-inner">
-    <%user.images.forEach((img, i) => { %>
-    <div class="carousel-item <%= i === 0 ? "active" : "" %>">
-      <img src="<%= img.url %>" class="d-block w-100" alt="" />
-    </div>
-    <% }) %>
-  </div>
-  <% if (user.images.length > 1) { %> 
-  <button
-    class="carousel-control-prev"
-    type="button"
-    data-bs-target="#userCarousel"
-    data-bs-slide="prev"
-  >
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button
-    class="carousel-control-next"
-    type="button"
-    data-bs-target="#userCarousel"
-    data-bs-slide="next"
-  >
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-  <% } %> <% } else { %>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331257_960_720.png" class="d-block w-100" alt="" />
+<h1>Your Profile</h1>
+<article class="postcard dark blue">
+  <div id='map'></div></article>
+<div class="row">
+  <div class="col-6">
+      <article class="postcard dark blue">
+      <div
+      id="workoutCarousel"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+    <% if (user.images.length) { %> 
+      <div class="carousel-inner tales">
+        <%user.images.forEach((img, i) => { %>
+        <div class="carousel-item <%= i === 0 ? "active" : "" %>">
+          <img src="<%= img.url %>" class="d-block w-100" alt="" />
+        </div>
+        <% }) %>
       </div>
+      <% if (user.images.length > 1) { %> 
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#workoutCarousel"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#workoutCarousel"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+      <% } %> <% } else { %>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://ak.picdn.net/shutterstock/videos/1027807277/thumb/6.jpg" class="d-block w-100" alt="" />
+          </div>
+        </div>
+        <% } %> 
     </div>
-    <% } %> 
+    </article>
+      </div>
+
+
+  <div class="col-6 mb-3">
+    <article class="postcard dark blue">
+      <div class="postcard__text">
+        <h1 class="postcard__title blue">
+          <a href="/users/<%= user._id %>"><%= user.username %></a>
+        </h1>
+        <div class="postcard__preview-txt"><%= user.bio %></br>
+          <i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;<%= user.location %></br>
+          <i class="fas fa-bold"></i>&nbsp;&nbsp;<%= user.bench %> lbs.</br>
+          <i class="fab fa-stripe-s"></i>&nbsp;&nbsp;<%= user.squat %> lbs.</br>
+          <i class="fab fa-dyalog"></i>&nbsp;&nbsp;<%= user.dead %> lbs.
+        </div>
+          <ul class="postcard__tagbox">
+      <li class="tag__item play blue"><form action="/users/<%= user._id %>/edit" method="GET"><button class="btn-rounded">Edit Profile</button></form></li>
+      </article>
+  </div>
 </div>
-  <div id='map' style='width: 400px; height: 300px;'></div>
-</div>
+
 <script>
   const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
   const user = <%- JSON.stringify(user)%>

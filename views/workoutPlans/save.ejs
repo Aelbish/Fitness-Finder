@@ -1,40 +1,41 @@
 <% layout("layouts/boilerplate.ejs") %>
 <h1>Saved Workouts</h1>
 <% if (!user.savedWorkouts.length) { %>
-<h4>No saved workouts</h4>
+<h4><small class="text-muted">No Saved Workouts Yet</small></h4>
 <% } else { %> <%for (let work of user.savedWorkouts) {%>
-<div class="card mb-3">
-  <div class="row">
-    <div class="col-md-4">
-      <img
-        class="img-fluid"
-        alt=""
-        src="https://www.thefamouspeople.com/profiles/images/david-laid-1.jpg"
-      />
+    <div class="row mb-3">
+      <article class="postcard dark blue">
+        <div class="postcard__text">
+          <h1 class="postcard__title blue">
+            <a href="/workoutplans/<%= work._id %>"><%= work.title %></a>
+          </h1>
+          <div class="postcard__subtitle small">
+            <i class="fas fa-bullseye"></i>&nbsp;&nbsp;<%= work.goal %>
+          </div>
+          <div class="postcard__bar"></div>
+          <div class="postcard__preview-txt"><%= work.summary %></div>
+          <ul class="postcard__tagbox">
+            <li class="tag__item">
+              <i class="fas fa-dumbbell"></i>&nbsp;&nbsp;<%= work.category%>
+            </li>
+            <li class="tag__item">
+              <i class="fas fa-walking"></i></i>&nbsp;&nbsp;<%= work.gender %>
+            </li>
+            <li class="tag__item">
+              <i class="fas fa-medal"></i>&nbsp;&nbsp;<%= work.trainingLevel %>
+            </li>
+            <li class="tag__item play blue">
+              <a href="/workoutplans/<%= work._id %>"
+                >View</a
+              >&nbsp;&nbsp;<i class="fas fa-caret-right"></i>
+            </li>
+            <li class="tag__item play blue">
+              <form action="/workoutplans/<%= work._id %>/save/?_method=DELETE" method="POST">
+                <button class="btn-rounded">Remove</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </article>
     </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title"><%= work.title %></h5>
-        <p class="card-text"><%= work.goal %></p>
-        <p class="card-text">
-          <small class="text-muted"
-            ><%= work.category%> For <%= work.gender %> & <%= work.trainingLevel
-            %> Level</small
-          >
-        </p>
-        <p class="card-text">
-          <small class="text-muted"
-            >Program Runs For <%= work.programDuration%>, <%= work.daysPerWeek
-            %> Days Per Week, <%= work.timePerWorkout %> Per Workout</small
-          >
-        </p>
-        <p class="card-text"><%= work.summary %></p>
-        <a class="btn btn-primary" href="/workoutplans/<%= work._id %>">View</a>
-        <form action="/workoutplans/<%= work._id %>/save/?_method=DELETE" method="POST">
-          <button class="btn btn-danger">Remove</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 <% } %> <% } %>

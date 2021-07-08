@@ -1,21 +1,20 @@
 <% layout("layouts/boilerplate.ejs") %>
-
+<h1>BMI Calculator</h1>
+<div class="col-6 offset-3">
 <div class="row mb-3">
-  <div class="col-6 offset-3">
     <iframe
       src="https://www.mealpro.net/bmi/?color=232323"
       frameborder="0"
       width="100%"
-      height="400"
+      height="500"
       style="max-width: 100%"
+      class="postcard light blue p-0"
     ></iframe>
-  </div>
 </div>
-<div class="row mb-3">
-  <div class="col-6 offset-3">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">BMR</h5>
+<div class="row mb-3 postcard dark blue">
+  <div class="postcard__text">
+    <h1 class="postcard__title blue">BMI</h1>
+    <div class="postcard__preview-txt">
         <p class="card-text">
           <i
             >"Your BMI is a measurement of your body weight based on your height
@@ -44,6 +43,7 @@
           src="https://www.mealpro.net/wp-content/uploads/2017/05/BMI-Widget-Chart.png"
           alt=""
         />
+      </br>
         <p class="card-subtitle">
           <strong>BMI table for children (WHO)</strong>
         </p>
