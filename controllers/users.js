@@ -24,7 +24,7 @@ module.exports.register = async (req, res, next) => {
         "success",
         " update your location in the edit profile page to optimize user experience"
       );
-      res.redirect("/workoutplans");
+      res.redirect("/workoutplans/categorized");
     });
   } catch (e) {
     req.flash("error", e.message);
@@ -38,7 +38,7 @@ module.exports.renderLoginForm = (req, res) => {
 
 module.exports.login = (req, res) => {
   req.flash("success", "Welcome back");
-  const redirectUrl = req.session.returnTo || "/workoutplans";
+  const redirectUrl = req.session.returnTo || "/workoutplans/categorized";
   delete req.session.returnTo;
   res.redirect(redirectUrl);
 };
@@ -46,7 +46,7 @@ module.exports.login = (req, res) => {
 module.exports.logout = (req, res) => {
   req.logout();
   req.flash("success", "Logged out");
-  res.redirect("/workoutplans");
+  res.redirect("/workoutplans/categorized");
 };
 
 module.exports.renderUserEditForm = async (req, res) => {
@@ -54,7 +54,7 @@ module.exports.renderUserEditForm = async (req, res) => {
   const user = await User.findById(id);
   if (!user) {
     req.flash("error", "Cannot find that user");
-    return res.redirect("/workoutplans");
+    return res.redirect("/workoutplans/categorized");
   }
   res.render("users/edit.ejs", { user });
 };
@@ -70,7 +70,7 @@ module.exports.updateUser = async (req, res) => {
   const user = await User.findByIdAndUpdate(id, { ...req.body });
   if (!user) {
     req.flash("error", "Cannot find that user");
-    return res.redirect("/workoutplans");
+    return res.redirect("/workoutplans/categorized");
   }
   user.geometry = geoData.body.features[0].geometry;
   const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
@@ -93,7 +93,7 @@ module.exports.viewUser = async (req, res) => {
   const user = await User.findById(id);
   if (!user) {
     req.flash("error", "Cannot find that user");
-    return res.redirect("/workoutplans");
+    return res.redirect("/workoutplans/categorized");
   }
   res.render("users/show.ejs", { user });
 };
@@ -108,7 +108,7 @@ module.exports.renderGymMap = async (req, res) => {
   const user = await User.findById(id);
   if (!user) {
     req.flash("error", "Cannot find that user");
-    return res.redirect("/workoutplans");
+    return res.redirect("/workoutplans/categorized");
   }
   res.render("users/gymMap.ejs", {user});
 };

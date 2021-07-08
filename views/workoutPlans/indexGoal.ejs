@@ -1,8 +1,8 @@
 <% layout("layouts/boilerplate.ejs") %>
-<h1>All Workouts</h1>
+<h1><%= goal %></h1>
 <% if (!workout.length) { %>
   <h4><small class="text-muted">No Workouts Yet</small></h4>
-<% } else { %> 
+<% } else { %>
 <% for (let work of workout) { %>
   <div class="row p-3">
     <article class="postcard dark blue">

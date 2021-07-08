@@ -18,9 +18,7 @@ map.addControl(
       .setLngLat(e.result.geometry.coordinates) //   .setLngLat(result.geometry.coordinates)
       .setPopup(
         new mapboxgl.Popup({ offset: 25 }).setHTML(
-          `<h6><strong>${e.result.text}</strong></h6><p>${
-            e.result.properties.address
-          }</p>`
+          `<h6><strong>${e.result.text}</strong></h6><p>${e.result.properties.address}</p>`
         )
       )
       .addTo(map);
@@ -28,3 +26,5 @@ map.addControl(
 );
 
 map.addControl(new mapboxgl.FullscreenControl());
+
+map.addControl(new mapboxgl.NavigationControl());

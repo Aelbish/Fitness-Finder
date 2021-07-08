@@ -37,9 +37,9 @@
         <div>
           <h3 class="float-md-left mb-0">Fitness Finder</h3>
           <nav class="nav nav-masthead justify-content-center float-md-right">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link" aria-current="page" href="/">Home</a>
             <a class="nav-link" href="/tools">Tools</a>
-            <a class="nav-link" href="/about">About</a>
+            <a class="nav-link active" href="/about">About</a>
             <% if(!currentUser) { %>
             <a class="nav-link" href="/login">Login</a>
             <a class="nav-link" href="/register">Register</a>
@@ -52,30 +52,69 @@
       <main class="px-3">
         <h1>Fitness Finder</h1>
         <p class="lead">
-          <div class="lead">Welcome to Fitness Finder!</div>
-          <div class="lead">
-          Start your fitness journey and find your fitness community through Fitness Finder.</div>
-          <div class="d-none d-md-block lead">View and save workout plans posted by people and add your own workout plans. <br/>Find fitness pals and gyms near you. </br>
-            Give ratings and reviews for the workout plans. </br>
+          <div class="lead mb-3">Created by Aelbish Shrestha.</div>
+          <div class="mb-3">
+            <a
+                href="https://www.linkedin.com/in/aelbish/"
+                class="
+                  font-weight-bold
+                " target="_blank"
+                ><img src="https://img.icons8.com/fluent/48/000000/linkedin.png"/></a
+              >&nbsp;&nbsp;&nbsp;&nbsp;<a
+              href="mailto: aelbish@gmail.com"
+              class="
+                font-weight-bold
+              " target="_blank"
+              ><img src="https://img.icons8.com/color/48/000000/email.png"/></a
+            >
+            </div>
+          <div class="lead mb-3">Languages and Frameworks Used</div>
+          <div class="lead mb-3">      
+            <figure>
+                <img src="https://img.icons8.com/color/50/000000/javascript--v1.png"/>&nbsp;&nbsp;
+                <img src="https://img.icons8.com/color/48/000000/nodejs.png"/>&nbsp;&nbsp;
+                <img src="/assets/Icon-Small-50.png"/>
+                <figcaption>JavaScript Nodejs Expressjs</figcaption>
+            </figure>
+            <figure>
+                <img src="https://img.icons8.com/color/50/000000/mongodb.png"/><figcaption>MongoDB</figcaption>
+            </figure>
+            <figure>
+                <img src="https://img.icons8.com/color/50/000000/html-5--v1.png"/>&nbsp;&nbsp;<img src="https://img.icons8.com/color/50/000000/css3.png"/>&nbsp;&nbsp;<img src="https://img.icons8.com/color/50/000000/bootstrap.png"/><figcaption>HTML CSS Bootstrap</figcaption>
+            </figure>
+          </div>
+          <div class="d-none d-md-block lead mb-3">Other Frameworks/ Libraries/ Technologies Used </br> Moongosejs, Passportjs, TinyMce, Cloudinary, Mapbox
             </div>
           
         </p>
+        <div class="mb-3"><a
+            href="mailto: aelbish@gmail.com"
+            class="
+              btn btn-md btn-secondary
+              font-weight-bold
+              border-white
+              bg-white
+            " target="_blank"
+            >Send Feedback</a
+          ></div>
+        <div class="mb-3">
         <a
-          href="/workoutplans/categorized"
+          href="https://github.com/Aelbish/Fitness-Finder"
           class="
             btn btn-md btn-secondary
             font-weight-bold
             border-white
             bg-white
-          "
-          >View Workout Plans</a
-        >
+          " target="_blank"
+          >View on Github</a
+        ></div>
       </main>
 
       <footer class="mt-auto text-white-50">
         <p>
           &copy; Fitness Finder 2021
         </p>
+        <p><a href="https://icons8.com/" target="_blank">Icons by Icons8</a></p>
       </footer>
     </div>
 

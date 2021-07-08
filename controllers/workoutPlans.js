@@ -9,14 +9,24 @@ const {
 } = require("../utils/selectOption");
 
 module.exports.index = async (req, res) => {
+  const workout = await WorkoutPlan.find({});
+  res.render("workoutPlans/index.ejs", { workout });
+};
+
+module.exports.indexCategory = async (req, res) => {
   const { category } = req.query;
-  if (category) {
-    const workout = await WorkoutPlan.find({ category });
-    res.render("workoutPlans/index.ejs", { workout, category });
-  } else {
-    const workout = await WorkoutPlan.find({});
-    res.render("workoutPlans/index.ejs", { workout, category: "All" });
-  }
+  const workout = await WorkoutPlan.find({ category });
+  res.render("workoutPlans/indexCategory.ejs", { workout, category });
+};
+
+module.exports.indexGoal = async (req, res) => {
+  const { goal } = req.query;
+  const workout = await WorkoutPlan.find({ goal });
+  res.render("workoutPlans/indexGoal.ejs", { workout, goal });
+};
+
+module.exports.indexHome = (req, res) => {
+  res.render("workoutPlans/indexHome.ejs");
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -81,7 +91,7 @@ module.exports.renderEditForm = async (req, res) => {
   const workout = await WorkoutPlan.findById(id);
   if (!workout) {
     req.flash("error", "Cannot find that workout plan");
-    return res.redirect("/workoutplans");
+    return res.redirect("/workoutplans/categorized");
   }
 
   res.render("workoutplans/edit.ejs", {
@@ -101,7 +111,7 @@ module.exports.showWorkoutPlan = async (req, res) => {
     .populate("author");
   if (!workout) {
     req.flash("error", "Cannot find that workout plan");
-    return res.redirect("/workoutplans");
+    return res.redirect("/workoutplans/categorized");
   }
   res.render("workoutplans/show.ejs", { workout });
 };
@@ -113,7 +123,7 @@ module.exports.updateWorkoutPlan = async (req, res) => {
   });
   if (!workout) {
     req.flash("error", "Cannot find that workout plan");
-    return res.redirect("/workoutplans");
+    return res.redirect("/workoutplans/categorized");
   }
   req.flash("success", "Workout plan has been updated");
   res.redirect(`/workoutplans/${workout._id}`);
@@ -124,5 +134,5 @@ module.exports.deleteWorkoutPlan = async (req, res) => {
   await User.updateMany({}, { $pull: { savedWorkouts: id } });
   await WorkoutPlan.findByIdAndDelete(id);
   req.flash("success", "Workout plan has been deleted");
-  res.redirect("/workoutplans");
+  res.redirect("/workoutplans/categorized");
 };

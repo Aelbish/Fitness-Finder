@@ -25,101 +25,15 @@
           <a class="nav-link" href="/workoutplans">Workout Plans</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/workoutplans/categorized"
+            >Workouts By Category</a
+          >
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/workoutplans/new">Add a Workout Plan</a>
         </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdownMenuLink"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Filter Workouts By Category
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li>
-              <a
-                class="dropdown-item"
-                href="/workoutplans?category=Single Muscle Group"
-                >Single Muscle</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="/workoutplans?category=Full Body"
-                >Full Body</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="/workoutplans?category=Cardio/HITT"
-                >Cardio/HITT</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                href="/workoutplans?category=Push/Pull/Leg"
-                >Push/Pull/Leg</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="/workoutplans?category=3-Day Split"
-                >3-Day Split</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="/workoutplans?category=4-Day Split"
-                >4-Day Split</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="/workoutplans?category=5-Day Split"
-                >5-Day Split</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                href="/workoutplans?category=Custom Split"
-                >Custom Split</a
-              >
-            </li>
-          </ul>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navBarDropDownTools"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Tools
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navBarDropDownTools">
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="/tools/bmr"
-                  >BMR Calculator</a
-                >
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="/tools/bmi"
-                  >BMI Calculator</a
-                >
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="/tools/caloriecalculator"
-                  >Calorie Calculator</a
-                >
-              </li>
-              </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="/tools">Tools</a>
         </li>
         <% if (!currentUser) { %>
         <li class="nav-item">
@@ -169,7 +83,8 @@
         >
           <div class="offcanvas-header">
             <h5 id="offcanvasRightLabel">
-              <i class="fas fa-user"></i>&nbsp;&nbsp;<%= currentUser.username %>
+              <i class="fas fa-user"></i>&nbsp;&nbsp;<%= currentUser.username
+              %>
             </h5>
             <button
               type="button"

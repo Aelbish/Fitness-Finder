@@ -99,6 +99,10 @@ app.get("/", (req, res) => {
   res.render("home.ejs");
 });
 
+app.get("/about", (req, res) => {
+  res.render("about.ejs");
+});
+
 //Catch all other undefined routes, order of this is important, this is at the end
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

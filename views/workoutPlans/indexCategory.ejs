@@ -1,5 +1,5 @@
 <% layout("layouts/boilerplate.ejs") %>
-<h1>All Workouts</h1>
+<h1><%= category %></h1>
 <% if (!workout.length) { %>
   <h4><small class="text-muted">No Workouts Yet</small></h4>
 <% } else { %> 

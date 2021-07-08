@@ -13,6 +13,12 @@ router
     tryCatchAsync(workoutPlans.createWorkoutPlan)
   );
 
+router.get("/category", tryCatchAsync(workoutPlans.indexCategory));
+
+router.get("/goal", tryCatchAsync(workoutPlans.indexGoal));
+
+router.get("/categorized", workoutPlans.indexHome);
+
 router.get("/new", isLoggedIn, workoutPlans.renderNewForm);
 
 router.get(
