@@ -67,6 +67,10 @@ module.exports.isReviewAuthor = async (req, res, next) => {
 module.exports.isOwner = async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findById(id);
+  if (!user) {
+    req.flash("error", "Cannot find that user");
+    return res.redirect("/workoutplans");
+  }
   if (!user._id.equals(req.user._id)) {
     req.flash("error", "You do not have that permission");
     return res.redirect("/workoutplans");

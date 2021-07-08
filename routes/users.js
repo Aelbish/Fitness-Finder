@@ -28,6 +28,13 @@ router.get("/logout", users.logout);
 
 router.get("/users/usermapcluster", isLoggedIn, users.viewUserClusterMap);
 
+router.get(
+  "/users/:id/findagym",
+  isLoggedIn,
+  isOwner,
+  tryCatchAsync(users.renderGymMap)
+);
+
 router
   .route("/users/:id/edit")
   .get(isLoggedIn, isOwner, tryCatchAsync(users.renderUserEditForm))

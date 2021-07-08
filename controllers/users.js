@@ -52,6 +52,10 @@ module.exports.logout = (req, res) => {
 module.exports.renderUserEditForm = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id);
+  if (!user) {
+    req.flash("error", "Cannot find that user");
+    return res.redirect("/workoutplans");
+  }
   res.render("users/edit.ejs", { user });
 };
 
@@ -64,6 +68,10 @@ module.exports.updateUser = async (req, res) => {
     .send();
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, { ...req.body });
+  if (!user) {
+    req.flash("error", "Cannot find that user");
+    return res.redirect("/workoutplans");
+  }
   user.geometry = geoData.body.features[0].geometry;
   const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   user.images.push(...imgs);
@@ -83,10 +91,24 @@ module.exports.updateUser = async (req, res) => {
 module.exports.viewUser = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id);
+  if (!user) {
+    req.flash("error", "Cannot find that user");
+    return res.redirect("/workoutplans");
+  }
   res.render("users/show.ejs", { user });
 };
 
 module.exports.viewUserClusterMap = async (req, res) => {
   const users = await User.find({});
   res.render("users/userClusterMap.ejs", { users });
+};
+
+module.exports.renderGymMap = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) {
+    req.flash("error", "Cannot find that user");
+    return res.redirect("/workoutplans");
+  }
+  res.render("users/gymMap.ejs", {user});
 };

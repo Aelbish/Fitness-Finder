@@ -111,6 +111,10 @@ module.exports.updateWorkoutPlan = async (req, res) => {
   const workout = await WorkoutPlan.findByIdAndUpdate(id, {
     ...req.body.workout,
   });
+  if (!workout) {
+    req.flash("error", "Cannot find that workout plan");
+    return res.redirect("/workoutplans");
+  }
   req.flash("success", "Workout plan has been updated");
   res.redirect(`/workoutplans/${workout._id}`);
 };

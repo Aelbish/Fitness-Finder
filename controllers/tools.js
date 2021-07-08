@@ -9,3 +9,4 @@ module.exports.renderBmiCalculator = (req, res) => {
 module.exports.renderCalorieCalculator = (req, res) => {
   res.render("tools/calorieCalculator.ejs");
 };
+

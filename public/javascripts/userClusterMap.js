@@ -1,7 +1,7 @@
 mapboxgl.accessToken = mapToken;
-var map = new mapboxgl.Map({
+const map = new mapboxgl.Map({
   container: "map",
-  style: "mapbox://styles/mapbox/light-v10",
+  style: "mapbox://styles/mapbox/dark-v10",
   center: [-103.59179687498357, 40.66995747013945],
   zoom: 3,
 });
@@ -37,12 +37,12 @@ map.on("load", function () {
         "step",
         ["get", "point_count"],
         "#51bbd6",
-        100,
+        5,
         "#f1f075",
-        750,
+        15,
         "#f28cb1",
       ],
-      "circle-radius": ["step", ["get", "point_count"], 20, 100, 30, 750, 40],
+      "circle-radius": ["step", ["get", "point_count"], 15, 5, 20, 15, 25],
     },
   });
 
@@ -73,10 +73,10 @@ map.on("load", function () {
 
   // inspect a cluster on click
   map.on("click", "clusters", function (e) {
-    var features = map.queryRenderedFeatures(e.point, {
+    const features = map.queryRenderedFeatures(e.point, {
       layers: ["clusters"],
     });
-    var clusterId = features[0].properties.cluster_id;
+    const clusterId = features[0].properties.cluster_id;
     map
       .getSource("users")
       .getClusterExpansionZoom(clusterId, function (err, zoom) {
@@ -94,15 +94,8 @@ map.on("load", function () {
   // the location of the feature, with
   // description HTML from its properties.
   map.on("click", "unclustered-point", function (e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var mag = e.features[0].properties.mag;
-    var tsunami;
-
-    if (e.features[0].properties.tsunami === 1) {
-      tsunami = "yes";
-    } else {
-      tsunami = "no";
-    }
+    const { popUpText } = e.features[0].properties;
+    const coordinates = e.features[0].geometry.coordinates.slice();
 
     // Ensure that if the map is zoomed out such that
     // multiple copies of the feature are visible, the
@@ -111,10 +104,7 @@ map.on("load", function () {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
 
-    new mapboxgl.Popup()
-      .setLngLat(coordinates)
-      .setHTML("magnitude: " + mag + "<br>Was there a tsunami?: " + tsunami)
-      .addTo(map);
+    new mapboxgl.Popup().setLngLat(coordinates).setHTML(popUpText).addTo(map);
   });
 
   map.on("mouseenter", "clusters", function () {
