@@ -52,6 +52,13 @@ module.exports.renderSavedWorkouts = async (req, res) => {
   res.render("workoutplans/save.ejs", { user });
 };
 
+module.exports.renderPostedWorkouts = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const id = user._id;
+  const workout = await WorkoutPlan.find({author: id});
+  res.render("workoutplans/post.ejs", { workout });
+};
+
 module.exports.saveWorkout = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(req.user._id);

@@ -211,7 +211,7 @@
       <h5>Reviews</h5>
       <div class="reviewScroll">
         <% if (!workout.reviews.length) { %>
-        <p class="card-text">No reviews yet ...</p>
+          <h6 class="card-text"><small class="text-muted">No Reviews Yet</small></h6>
         <% } else {%> <%for (let review of workout.reviews) { %>
         <div class="card mb-3">
           <div class="card-body">

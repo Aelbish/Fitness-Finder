@@ -1,0 +1,37 @@
+<% layout("layouts/boilerplate.ejs") %>
+<h1>Posted Workouts</h1>
+<% if (!workout.length) { %>
+  <h4><small class="text-muted">No Posted Workouts Yet</small></h4>
+<% } else { %> 
+<% for (let work of workout) { %>
+  <div class="row p-3">
+    <article class="postcard dark blue">
+      <div class="postcard__text">
+        <h1 class="postcard__title blue">
+          <a href="/workoutplans/<%= work._id %>"><%= work.title %></a>
+        </h1>
+        <div class="postcard__subtitle small">
+          <i class="fas fa-bullseye"></i>&nbsp;&nbsp;<%= work.goal %>
+        </div>
+        <div class="postcard__bar"></div>
+        <div class="postcard__preview-txt"><%= work.summary %></div>
+        <ul class="postcard__tagbox">
+          <li class="tag__item">
+            <i class="fas fa-dumbbell"></i>&nbsp;&nbsp;<%= work.category%>
+          </li>
+          <li class="tag__item">
+            <i class="fas fa-walking"></i></i>&nbsp;&nbsp;<%= work.gender %>
+          </li>
+          <li class="tag__item">
+            <i class="fas fa-medal"></i>&nbsp;&nbsp;<%= work.trainingLevel %>
+          </li>
+          <li class="tag__item play blue">
+            <a href="/workoutplans/<%= work._id %>"
+              >View</a
+            >&nbsp;&nbsp;<i class="fas fa-caret-right"></i>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </div>
+<% } %><% } %>

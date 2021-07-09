@@ -27,6 +27,12 @@ router.get(
   tryCatchAsync(workoutPlans.renderSavedWorkouts)
 );
 
+router.get(
+  "/posted",
+  isLoggedIn,
+  tryCatchAsync(workoutPlans.renderPostedWorkouts)
+);
+
 router
   .route("/:id/save")
   .get(isLoggedIn, tryCatchAsync(workoutPlans.saveWorkout))

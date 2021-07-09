@@ -13,7 +13,6 @@ map.addControl(
     mapboxgl: mapboxgl,
     placeholder: 'Search "Gym"',
   }).on("result", function (e) {
-    console.log(e.result);
     new mapboxgl.Marker()
       .setLngLat(e.result.geometry.coordinates) //   .setLngLat(result.geometry.coordinates)
       .setPopup(

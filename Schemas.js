@@ -1,7 +1,34 @@
-const Joi = require("joi");
+const BaseJoi = require("joi");
+//package that tracks basic html tags and prevents from basic hacks
+const sanitizeHtml = require("sanitize-html");
+
+//Our custom validator to remove html tags from query
+const extension = (joi) => ({
+  type: "string",
+  base: joi.string(),
+  messages: {
+    "string.escapeHTML": "{{#label}} must not include HTML",
+  },
+  rules: {
+    escapeHTML: {
+      validate(value, helpers) {
+        const clean = sanitizeHtml(value, {
+          allowedTags: [],
+          allowedAttributes: {},
+        });
+        if (clean !== value)
+          return helpers.error("string.escapeHTML", { value });
+        return clean;
+      },
+    },
+  },
+});
+
+const Joi = BaseJoi.extend(extension);
+
 module.exports.workoutPlanSchema = Joi.object({
   workout: Joi.object({
-    title: Joi.string().required(),
+    title: Joi.string().required().escapeHTML(),
     goal: Joi.string()
       .valid(
         "Build Muscle",
@@ -9,7 +36,7 @@ module.exports.workoutPlanSchema = Joi.object({
         "Lose Fat/Tone Up",
         "Increase Endurance/Stamina"
       )
-      .required(),
+      .required().escapeHTML(),
     category: Joi.string()
       .valid(
         "Single Muscle Group",
@@ -21,17 +48,17 @@ module.exports.workoutPlanSchema = Joi.object({
         "5-Day Split",
         "Custom Split"
       )
-      .required(),
+      .required().escapeHTML(),
     trainingLevel: Joi.string()
       .valid("Beginner", "Intermediate", "Advanced")
-      .required(),
-    programDuration: Joi.string().required(),
+      .required().escapeHTML(),
+    programDuration: Joi.string().required().escapeHTML(),
     daysPerWeek: Joi.string()
       .valid("1", "2", "3", "4", "5", "6", "7")
-      .required(),
-    timePerWorkout: Joi.string().required(),
-    gender: Joi.string().valid("Male", "Female", "All Genders").required(),
-    summary: Joi.string().required(),
+      .required().escapeHTML(),
+    timePerWorkout: Joi.string().required().escapeHTML(),
+    gender: Joi.string().valid("Male", "Female", "All Genders").required().escapeHTML(),
+    summary: Joi.string().required().escapeHTML(),
     description: Joi.string().required(),
   }).required(),
 });
@@ -39,19 +66,19 @@ module.exports.workoutPlanSchema = Joi.object({
 module.exports.reviewSchema = Joi.object({
   review: Joi.object({
     rating: Joi.number().required().min(1).max(5),
-    body: Joi.string().required(),
+    body: Joi.string().required().escapeHTML(),
   }).required(),
 });
 
 module.exports.userSchema = Joi.object({
-  username: Joi.string().alphanum().min(3).max(30),
+  username: Joi.string().alphanum().min(3).max(30).escapeHTML(),
   password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,13}$")),
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },
   }),
-  bio: Joi.string(),
-  location: Joi.string(),
+  bio: Joi.string().escapeHTML(),
+  location: Joi.string().escapeHTML(),
   // images: Joi.string(),
   bench: Joi.number().integer().min(0).max(2000),
   dead: Joi.number().integer().min(0).max(2000),

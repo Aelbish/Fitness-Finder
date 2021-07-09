@@ -1,5 +1,5 @@
 <% layout("layouts/boilerplate.ejs") %>
-<h1>Your Profile</h1>
+<h1>Profile</h1>
 <article class="postcard dark blue">
   <div id='map'></div></article>
 <div class="row">
@@ -61,8 +61,10 @@
           <i class="fab fa-stripe-s"></i>&nbsp;&nbsp;<%= user.squat %> lbs.</br>
           <i class="fab fa-dyalog"></i>&nbsp;&nbsp;<%= user.dead %> lbs.
         </div>
+        <% if (currentUser && user._id.equals(currentUser._id)) { %>
           <ul class="postcard__tagbox">
-      <li class="tag__item play blue"><form action="/users/<%= user._id %>/edit" method="GET"><button class="btn-rounded">Edit Profile</button></form></li>
+      <li class="tag__item play blue"><form action="/users/<%= user._id %>/edit" method="GET"><button class="btn-rounded">Edit Profile</button></form></li></ul>     
+       <% } %>
       </article>
   </div>
 </div>
