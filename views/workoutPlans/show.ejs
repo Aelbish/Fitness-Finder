@@ -64,17 +64,17 @@
           </li>
           </ul>
           <ul class="postcard__tagbox">
-      <li class="tag__item play blue"><form action="/workoutplans/<%= workout._id %>/save" method="GET">
+      <li class="tag__item play green"><form action="/workoutplans/<%= workout._id %>/save" method="GET">
       <button class="btn-rounded">Save Workout</button>
     </form></li>
         </ul>
           <ul class="postcard__tagbox mb-3">
           <% if (currentUser && workout.author.equals(currentUser._id)) { %>
-            <li class="tag__item play blue">
+            <li class="tag__item play yellow">
         <a
           href="/workoutplans/<%= workout._id %>/edit"
           >Edit</a
-        ></li><li class="tag__item play blue">
+        ></li><li class="tag__item play red">
         <form
           class="d-inline"
           action="/workoutplans/<%= workout._id %>?_method=DELETE"

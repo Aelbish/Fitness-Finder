@@ -46,3 +46,7 @@
   border-top-left-radius: 0.8em;
   border-bottom-left-radius: 0.8em;
 }
+
+.form-label {
+  font-weight: bold;
+}
