@@ -34,17 +34,17 @@
 }
 
 .card-rounded {
-  border-radius: 0.8em;
+  border-radius: 0.7em;
 }
 
 .card-image {
-  border-top-left-radius: 0.8em;
-  border-top-right-radius: 0.8em;
+  border-top-left-radius: 0.7em;
+  border-top-right-radius: 0.7em;
 }
 
 .canvas-rounded {
-  border-top-left-radius: 0.8em;
-  border-bottom-left-radius: 0.8em;
+  border-top-left-radius: 0.7em;
+  border-bottom-left-radius: 0.7em;
 }
 
 .form-label {
