@@ -24,7 +24,6 @@ const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
 const toolRoutes = require("./routes/tools");
 
-
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/fitness-finder";
 //Connecting to Mongo
 mongoose.connect(dbUrl, {
@@ -120,6 +119,7 @@ const scriptSrcUrls = [
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css",
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5/tinymce.min.js`,
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/`,
+  `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/themes/silver/theme.min.js`,
 ];
 const styleSrcUrls = [
   "https://kit-free.fontawesome.com/",
@@ -217,7 +217,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error.ejs", { err });
 });
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Serving on port ${port}`);
 });
