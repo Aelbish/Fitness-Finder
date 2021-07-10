@@ -118,7 +118,9 @@ const scriptSrcUrls = [
   "https://cdn.jsdelivr.net/",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css",
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5/tinymce.min.js`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5/tinymce.min.js",
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/",
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/themes/silver/theme.min.js`,
   "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.8.2-114/themes/silver/theme.min.js",
 ];
@@ -134,6 +136,15 @@ const styleSrcUrls = [
   "https://use.fontawesome.com/",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/",
+  `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/skins/content/default/content.min.css`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.8.2-114/skins/content/default/content.min.css",
+  `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/skins/ui/oxide/content.min.css`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.8.2-114/skins/ui/oxide/content.min.css",
+  `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/skins/ui/oxide/skin.min.css`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.8.2-114/skins/ui/oxide/skin.min.css",
+  `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/icons/default/icons.min.js`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.8.2-114/icons/default/icons.min.js",
 ];
 const connectSrcUrls = [
   "https://api.mapbox.com/",
@@ -141,7 +152,13 @@ const connectSrcUrls = [
   "https://b.tiles.mapbox.com/",
   "https://events.mapbox.com/",
 ];
-const fontSrcUrls = ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/"];
+const fontSrcUrls = [
+  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/",
+  `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/",
+  `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/icons/default/icons.min.js`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.8.2-114/icons/default/icons.min.js",
+];
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -159,7 +176,12 @@ app.use(
         "https://images.unsplash.com/",
         "https://img.icons8.com/",
         "https://sp.tinymce.com/",
+        `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/`,
+        "https://cdn.tiny.cloud/1/invalid-origin/tinymce/",
         `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5/tinymce.min.js`,
+        "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5/tinymce.min.js",
+        `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/icons/default/icons.min.js`,
+        "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.8.2-114/icons/default/icons.min.js",
         "https://ak.picdn.net/shutterstock/videos/1027807277/thumb/6.jpg",
         "https://www.mealpro.net/wp-content/uploads/2017/05/BMI-Widget-Chart.png",
         "https://www.mealpro.net/wp-content/uploads/2017/05/BMI-Widget-Children-Chart.png",
