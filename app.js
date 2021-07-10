@@ -120,6 +120,7 @@ const scriptSrcUrls = [
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5/tinymce.min.js`,
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/`,
   `https://cdn.tiny.cloud/1/${process.env.TINYMCE_KEY}/tinymce/5.8.2-114/themes/silver/theme.min.js`,
+  "https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.8.2-114/themes/silver/theme.min.js",
 ];
 const styleSrcUrls = [
   "https://kit-free.fontawesome.com/",
