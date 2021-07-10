@@ -49,14 +49,14 @@ module.exports.createWorkoutPlan = async (req, res, next) => {
 
 module.exports.renderSavedWorkouts = async (req, res) => {
   const user = await User.findById(req.user._id).populate("savedWorkouts");
-  res.render("workoutplans/save.ejs", { user });
+  res.render("workoutPlans/save.ejs", { user });
 };
 
 module.exports.renderPostedWorkouts = async (req, res) => {
   const user = await User.findById(req.user._id);
   const id = user._id;
   const workout = await WorkoutPlan.find({author: id});
-  res.render("workoutplans/post.ejs", { workout });
+  res.render("workoutPlans/post.ejs", { workout });
 };
 
 module.exports.saveWorkout = async (req, res) => {
@@ -101,7 +101,7 @@ module.exports.renderEditForm = async (req, res) => {
     return res.redirect("/workoutplans/categorized");
   }
 
-  res.render("workoutplans/edit.ejs", {
+  res.render("workoutPlans/edit.ejs", {
     workout,
     goals,
     categories,
@@ -120,7 +120,7 @@ module.exports.showWorkoutPlan = async (req, res) => {
     req.flash("error", "Cannot find that workout plan");
     return res.redirect("/workoutplans/categorized");
   }
-  res.render("workoutplans/show.ejs", { workout });
+  res.render("workoutPlans/show.ejs", { workout });
 };
 
 module.exports.updateWorkoutPlan = async (req, res) => {
