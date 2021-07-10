@@ -12,6 +12,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
+const mongoDBStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const ExpressError = require("./utils/ExpressError");
 
@@ -23,8 +24,10 @@ const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
 const toolRoutes = require("./routes/tools");
 
+
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/fitness-finder";
 //Connecting to Mongo
-mongoose.connect("mongodb://localhost:27017/fitness-finder", {
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useFindAndModify: false,
   useCreateIndex: true,
@@ -35,7 +38,7 @@ mongoose.connect("mongodb://localhost:27017/fitness-finder", {
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error: "));
 db.once("open", () => {
-  console.log("Connected to database");
+  console.log("Connection to database successful");
 });
 
 const app = express();
@@ -58,18 +61,48 @@ app.use(express.static(path.join(__dirname, "public")));
 //Disable basic mongo injection
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || "xxx";
+
+//To create sessions and use flash
 const sessionConfig = {
+  //our custom name for the cookie
   name: "xor",
-  secret: "thisshouldbeabettersecret",
+  secret,
   resave: false,
   saveUninitialized: true,
+  //store the session in our MongoDB cloud
+  //this will create a new collection called sessions just like users/reviews/campgrounds automatically
+  //before the sessions were stored in the browser memoryStore, but now it is stored in our database
+  store: mongoDBStore.create({
+    mongoUrl: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60,
+  }),
   cookie: {
     httpOnly: true,
-    //secure:true,
+    //https
+    //secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
+
+sessionConfig.store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e);
+});
+
+// const sessionConfig = {
+//   name: "xor",
+//   secret: "thisshouldbeabettersecret",
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     httpOnly: true,
+//     //secure:true,
+//     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+//     maxAge: 1000 * 60 * 60 * 24 * 7,
+//   },
+// };
 app.use(session(sessionConfig));
 app.use(flash());
 app.use(helmet());
