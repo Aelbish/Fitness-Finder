@@ -70,11 +70,11 @@
         </ul>
           <ul class="postcard__tagbox mb-3">
           <% if (currentUser && workout.author.equals(currentUser._id)) { %>
-            <li class="tag__item play yellow">
-        <a
+            <a
           href="/workoutplans/<%= workout._id %>/edit"
-          >Edit</a
-        ></li><li class="tag__item play red">
+          ><li class="tag__item play yellow">
+        Edit</li></a
+        ><li class="tag__item play red">
         <form
           class="d-inline"
           action="/workoutplans/<%= workout._id %>?_method=DELETE"

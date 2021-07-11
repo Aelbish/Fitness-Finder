@@ -25,11 +25,10 @@
           <li class="tag__item">
             <i class="fas fa-medal"></i>&nbsp;&nbsp;<%= work.trainingLevel %>
           </li>
-          <li class="tag__item play blue">
-            <a href="/workoutplans/<%= work._id %>"
-              >View</a
-            >&nbsp;&nbsp;<i class="fas fa-caret-right"></i>
-          </li>
+          <a href="/workoutplans/<%= work._id %>"
+            ><li class="tag__item play blue">
+            View&nbsp;&nbsp;<i class="fas fa-caret-right"></i>
+          </li></a>
         </ul>
       </div>
     </article>

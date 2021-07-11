@@ -24,11 +24,11 @@
             <li class="tag__item">
               <i class="fas fa-medal"></i>&nbsp;&nbsp;<%= work.trainingLevel %>
             </li>
-            <li class="tag__item play blue">
-              <a href="/workoutplans/<%= work._id %>"
-                >View</a
-              >&nbsp;&nbsp;<i class="fas fa-caret-right"></i>
-            </li>
+            <a href="/workoutplans/<%= work._id %>"
+              ><li class="tag__item play blue">
+              View&nbsp;&nbsp;<i class="fas fa-caret-right"></i>
+            </li></a
+            >
             <li class="tag__item play red">
               <form action="/workoutplans/<%= work._id %>/save/?_method=DELETE" method="POST">
                 <button class="btn-rounded">Remove</button>&nbsp;&nbsp;<i class="fas fa-ban"></i>
