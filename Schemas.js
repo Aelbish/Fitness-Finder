@@ -79,9 +79,7 @@ module.exports.reviewSchema = Joi.object({
 
 module.exports.userSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).escapeHTML(),
-  password: Joi.string().pattern(
-    new RegExp("^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$")
-  ),
+  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{8,}$")),
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },

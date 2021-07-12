@@ -4,8 +4,7 @@
     <div class="alert alert-danger" role="alert">
       <% if (err.message.substr(1, 8) === "password") { %>
       <h4 class="alert-heading">
-        Password must have a minimum of eight characters, at least one letter
-        and one number.
+        Password must have a minimum of eight characters.
       </h4>
       <% } else { %>
       <h4 class="alert-heading"><%= err.message %></h4>
