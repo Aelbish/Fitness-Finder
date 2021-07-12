@@ -36,7 +36,8 @@ module.exports.workoutPlanSchema = Joi.object({
         "Lose Fat/Tone Up",
         "Increase Endurance/Stamina"
       )
-      .required().escapeHTML(),
+      .required()
+      .escapeHTML(),
     category: Joi.string()
       .valid(
         "Single Muscle Group",
@@ -48,16 +49,22 @@ module.exports.workoutPlanSchema = Joi.object({
         "5-Day Split",
         "Custom Split"
       )
-      .required().escapeHTML(),
+      .required()
+      .escapeHTML(),
     trainingLevel: Joi.string()
       .valid("Beginner", "Intermediate", "Advanced")
-      .required().escapeHTML(),
+      .required()
+      .escapeHTML(),
     programDuration: Joi.string().required().escapeHTML(),
     daysPerWeek: Joi.string()
       .valid("1", "2", "3", "4", "5", "6", "7")
-      .required().escapeHTML(),
+      .required()
+      .escapeHTML(),
     timePerWorkout: Joi.string().required().escapeHTML(),
-    gender: Joi.string().valid("Male", "Female", "All Genders").required().escapeHTML(),
+    gender: Joi.string()
+      .valid("Male", "Female", "All Genders")
+      .required()
+      .escapeHTML(),
     summary: Joi.string().required().escapeHTML(),
     description: Joi.string().required(),
   }).required(),
@@ -72,7 +79,9 @@ module.exports.reviewSchema = Joi.object({
 
 module.exports.userSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).escapeHTML(),
-  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+  password: Joi.string().pattern(
+    new RegExp("^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$")
+  ),
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },
