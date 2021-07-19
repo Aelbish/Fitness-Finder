@@ -7,7 +7,7 @@ const extension = (joi) => ({
   type: "string",
   base: joi.string(),
   messages: {
-    "string.escapeHTML": "{{#label}} must not include HTML",
+    "string.escapeHTML": '{{#label}} must not include "&", "<", ">".',
   },
   rules: {
     escapeHTML: {
@@ -78,12 +78,14 @@ module.exports.reviewSchema = Joi.object({
 });
 
 module.exports.userSchema = Joi.object({
-  username: Joi.string().alphanum().min(3).max(30).escapeHTML(),
-  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{8,}$")),
-  email: Joi.string().email({
-    minDomainSegments: 2,
-    tlds: { allow: ["com", "net"] },
-  }),
+  username: Joi.string().required().escapeHTML(),
+  password: Joi.string().required(),
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ["com", "net"] },
+    })
+    .required(),
   bio: Joi.string().escapeHTML(),
   location: Joi.string().escapeHTML(),
   // images: Joi.string(),
