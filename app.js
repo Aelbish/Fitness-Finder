@@ -162,7 +162,7 @@ const fontSrcUrls = [
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["data:", "https://www.mealpro.net/"],
+      defaultSrc: ["'self'", "data:", "https://www.mealpro.net/"],
       connectSrc: ["'self'", ...connectSrcUrls],
       scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
