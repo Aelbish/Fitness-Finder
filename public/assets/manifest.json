@@ -1,0 +1,25 @@
+{
+  "short_name": "Web App",
+  "name": "Find Fitness Web App",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "512X512 64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "running.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "running.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
