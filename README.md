@@ -1,5 +1,5 @@
 # [Fitness-Finder](https://l20-find-fitness.herokuapp.com/)
-This is a web app named 'Find Fitness'. This project aims to help people achieve their fitness goals by providing the users with various workout plans, tools to track their macros, maps to find fitness pals or a gym, and so on. 
+This is a Express.js web app. This project aims to help people achieve their fitness goals by providing the users with various workout plans, tools to track their macros, maps to find fitness pals or a gym, and so on. 
 ![1](https://user-images.githubusercontent.com/49761123/126062886-44683ed6-3fe2-4618-a32c-641d24affad4.jpg)
 ![2](https://user-images.githubusercontent.com/49761123/126062887-55e88516-23e2-4d17-84cd-5cfe7a3a8317.jpg)
 ![3](https://user-images.githubusercontent.com/49761123/126062888-c234a5b5-f936-4552-97b9-3c3e3c45688b.jpg)
